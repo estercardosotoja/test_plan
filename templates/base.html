@@ -1,0 +1,28 @@
+{% load static %}
+<!doctype html>
+<html lang="pr-br" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Gerador de Planos de Testes de API">
+    <!--Icone da aba-->
+    <link rel="icon" sizes="180x180" href="{% static '/img/favicon.ico' %}">
+    <title> Test Plan</title>
+    <!-- css -->
+    <link href="{% static '/css/bootstrap.min.css' %} " rel="stylesheet">
+    <link href="{% static '/css/cover.css' %}" rel="stylesheet">
+    <link href="{% static '/css/style.css' %} " rel="stylesheet">
+  </head>
+
+  <body class="d-flex h-100 text-center text-bg-dark">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+      {% include 'partials/_nav.html' %}
+
+      {% block content %}{% endblock %}
+
+      {% include 'partials/_footer.html' %}
+
+    </div>
+</body>
+</html>

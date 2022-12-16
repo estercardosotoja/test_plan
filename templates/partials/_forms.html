@@ -1,0 +1,16 @@
+<div id="popup1" class="overlay">
+    <div class="popup">
+      <h2>Upload do Arquivo</h2>
+       <!--<a class="close" href="#">&times;</a> -->
+      <div class="content">
+        <form action="{% url 'gerador'%}" method="post" ENCTYPE="multipart/form-data">
+          {% csrf_token %}
+            <label class="form-label" for="customFile" id="extensao" >  </label>
+            </br>
+            <input id="customFile"  type='file' name="document">
+            </br>
+          <button  id="btn" class="btn" value="Submit"  type="submit" >Gerar</button>
+        </form>
+     </div>
+   </div>
+</div>
