@@ -1,35 +1,41 @@
-import os
-import json
-
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect
 
 from app.forms import *
+from app.functions.Readfiles import *
 from django.shortcuts import render
 from .forms import UploadFileForm
+
+
+from django.core.files.storage import FileSystemStorage
+from app.functions.Readfiles import *
+from django.shortcuts import render
 
 
 def index(request):
     context = {}
     if request.method == 'POST':
-        uploaded_file = request.FILES['document']
-        fs = FileSystemStorage()
-        name = fs.save(uploaded_file.name, uploaded_file)
-        context['url'] = fs.url(name)
-        print(f' URL: {context}')
-    return render(request, "index.html", context)
+        if request.FILES.get('document', False):
+            uploaded_file = request.FILES['document']
+            fs = FileSystemStorage()
+            name = fs.save(uploaded_file.name, uploaded_file)
+            path = ReadFile(uploaded_file.name)
+            result = path.open_file()
+            if result == 0:
+                context = alert('Revise o arquivo, sintaxe errada!')
+                return render(request, "index.html", context)
+            else:
+                return render(request, "playload.html", context)
+        else:
+            context = alert('Selecione uma arquivo para realizar o upload!')
+            return render(request, "index.html", context)
+    else:
+        return render(request, "index.html")
 
 
-def upload_file(request):
-    if request.method == 'POST' and request.FILES['myfile']:
-        myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
-        return render(request, 'playload.html', {
-            'uploaded_file_url': uploaded_file_url
-        })
-    return render(request, 'index.html')
+
+def playload(request):
+    return render(request, 'playload.html')
 
 
 def manual(request):
@@ -38,10 +44,6 @@ def manual(request):
 
 def contato(request):
     return render(request, 'contato.html')
-
-
-def playload(request):
-    return render(request, 'playload.html')
 
 
 def gerador(request):
@@ -61,3 +63,11 @@ def gerador(request):
 
 def download(request):
     return render(request, 'download.html')
+
+
+def alert(msg):
+    context = {
+        'msg': True,
+        'text': msg
+    }
+    return context
