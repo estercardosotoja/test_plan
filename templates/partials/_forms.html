@@ -6,7 +6,7 @@
         <form action="{% url 'index'%}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             </br>
-            <input id="customFile"  type="file" name="document">
+            <input id="customFile"  type="file" name="document" accept="*,.json, .yaml">
             </br>
             <button  id="btn" class="btn" value="Submit"  type="submit" >Gerar</button>
         </form>

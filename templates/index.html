@@ -11,8 +11,10 @@
   </main>
 
     <body>
-        {% include 'partials/_alerts.html' %}
         {% include 'partials/_forms.html' %}
+        {% if msg == True %}
+            {% include 'partials/_alert2.html' %}
+        {% endif %}
     </body>
 {% endblock %}
 
