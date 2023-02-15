@@ -10,6 +10,7 @@ from .forms import UploadFileForm
 from django.core.files.storage import FileSystemStorage
 from app.functions.Readfiles import *
 from django.shortcuts import render
+from app.functions.Genaretor import *
 
 
 def index(request):
@@ -25,7 +26,18 @@ def index(request):
                 context = alert('Revise o arquivo, sintaxe errada!')
                 return render(request, "index.html", context)
             else:
-                return render(request, "playload.html", context)
+                context = {
+                    'name': name,
+                    'spec': result
+                }
+
+                html_generator = Extract(context['spec'])
+                html_entrada = html_generator.generate()
+
+                with open("../projeto_tecnologico/templates/checkbox.html", "w") as file:
+                    file.write(html_entrada)
+
+                return render(request, "gerador.html", context)
         else:
             context = alert('Selecione uma arquivo para realizar o upload!')
             return render(request, "index.html", context)
@@ -33,9 +45,14 @@ def index(request):
         return render(request, "index.html")
 
 
-
-def playload(request):
-    return render(request, 'playload.html')
+def gerador(request, context):
+    arq = Extract(context['name'])
+    print(context['name'])
+    path = arq.get_paths()
+    text = {
+        'path': path
+    }
+    return render(request, 'gerador.html', text)
 
 
 def manual(request):
@@ -44,22 +61,6 @@ def manual(request):
 
 def contato(request):
     return render(request, 'contato.html')
-
-
-def gerador(request):
-    dados_tests = {
-        1: "POST",
-        2: "GET",
-        3: "PUT",
-        4: "DELETE",
-        5: "POST",
-        6: "GET",
-    }
-    dados = {
-        'testes': dados_tests
-    }
-    return render(request, 'gerador.html', dados)
-
 
 def download(request):
     return render(request, 'download.html')
