@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div>
+        <div>
+            <h1> {{ title }}</h1>
+            <h6> Version: {{ version }}</h6>
+        </div>
+        <p> {{opcoes}}</p>
+        <form method="post" action="{% url 'saida' %}"  enctype="application/x-www-form-urlencoded">
+            {% csrf_token %}
+
+                {% with count=0 %}
+                <p> Paths </p>
+                {% for path, path_object in paths.items %}
+                    {% with count|add:1 as count %}
+                    {% for verb, verb_object in path_object.items %}
+                        <tr>
+                            <td><input type="checkbox" id="{{ count }}" name="path" value="{{path}}"> {{ path }} </td>
+                            <td><input type="checkbox" id="{{ verb }}" name="verb" value="{{verb}}"> {{ verb }}</td>
+                            {% for parameter in verb_object.parameters %}
+                                <td>{{ parameter.name }}</td>
+                                <td>{% if parameter.required %}Yes{% else %}No{% endif %}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    {% endwith %}
+                {% endfor %}
+                {% endwith %}
+
+            <div class="form-example">
+                <input type="submit" value="Subscribe!">
+            </div>
+        </form>
+    </div>
+{% endblock %}
+

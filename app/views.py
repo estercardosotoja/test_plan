@@ -1,16 +1,8 @@
 from django.core.files.storage import FileSystemStorage
-from django.http import HttpResponseRedirect
 
-from app.forms import *
-from app.functions.Readfiles import *
-from django.shortcuts import render
-from .forms import UploadFileForm
-
-
-from django.core.files.storage import FileSystemStorage
-from app.functions.Readfiles import *
-from django.shortcuts import render
-from app.functions.Genaretor import *
+from app.functions.Extract import Extract
+from app.functions.Extract import *
+from .functions.Readfiles import ReadFile
 
 
 def index(request):
@@ -32,12 +24,20 @@ def index(request):
                 }
 
                 html_generator = Extract(context['spec'])
-                html_entrada = html_generator.generate()
+                html_entrada = html_generator.get_paths()
+                title_api = Extract.get_title(context['spec'])
+                version_api = Extract.get_version(context['spec'])
 
-                with open("../projeto_tecnologico/templates/checkbox.html", "w") as file:
-                    file.write(html_entrada)
-
-                return render(request, "gerador.html", context)
+                # with open("../projeto_tecnologico/templates/dynamic/checkbox.html", "w") as file:
+                # file.write(html_entrada)
+                context = {
+                    'name': name,
+                    'spec': result,
+                    'paths': html_entrada,
+                    'title': title_api,
+                    'version': version_api
+                }
+                return render(request, "../templates/partials/_generator_form.html", context)
         else:
             context = alert('Selecione uma arquivo para realizar o upload!')
             return render(request, "index.html", context)
@@ -46,14 +46,43 @@ def index(request):
 
 
 def gerador(request, context):
-    arq = Extract(context['name'])
-    print(context['name'])
-    path = arq.get_paths()
-    text = {
-        'path': path
-    }
-    return render(request, 'gerador.html', text)
+    return render(request, "/partials/_generator_form.html", context)
 
+
+"""
+
+def saida(request):
+    if request.method == 'POST':
+        opcoes_selecionadas = request.POST.getlist('opcoes')
+        # faça algo com as opções selecionadas
+        # exiba o template do formulário
+        context = {'opcoes': opcoes_selecionadas}
+        return render(request, '../templates/dynamic/out.html', context)
+    else:
+        opcoes_selecionadas = 'ERROR'
+        context = {'opcoes': opcoes_selecionadas}
+    return render(request, '/templates/dynamic/out.html', context)
+"""
+
+
+def saida(request):
+    if request.method == 'POST':
+        selected_paths = request.POST.getlist('path')
+        selected_verbs = request.POST.getlist('verb')
+        print(f'\n verbs: {selected_verbs}')
+        print(f'\n path: {selected_paths}')
+
+        context = {
+            'selected_verbs': selected_verbs,
+            'selected_paths': selected_paths
+        }
+        return render(request, '../templates/dynamic/out.html', context)
+    else:
+        context = {
+            'MSG': 'ERROR'
+        }
+        print(context)
+        return render(request, '../templates/dynamic/out.html', context)
 
 def manual(request):
     return render(request, 'manual.html')
@@ -61,6 +90,7 @@ def manual(request):
 
 def contato(request):
     return render(request, 'contato.html')
+
 
 def download(request):
     return render(request, 'download.html')

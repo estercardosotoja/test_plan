@@ -7,4 +7,5 @@ urlpatterns = [
     path('contato/', contato, name='contato'),
     path('gerador/', gerador, name='gerador'),
     path('download/', download, name='download'),
+    path('saida/', saida, name='saida')
 ]
