@@ -1,0 +1,11 @@
+{% load static %}
+
+{% if status|length > 0 %}
+  <li>
+    <p class="descricao_status">
+      <input type="checkbox" id="count" name=ordem value="{{ status }}"> 
+      <p class="p_status"> Status Code: </p>
+      <p class="status"> {{ status }} </p>
+    </p>
+  </li>
+{% endif %}

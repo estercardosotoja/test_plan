@@ -1,9 +1,44 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
 <div>
-    <h1> Download </h1>
+    <h3> Seu arquivo está pronto para download: </h3>
+</div>
+<div>
+      <form method="post" action="{% url 'downloaded' %}" enctype="application/x-www-form-urlencoded">
+        {% csrf_token %}
+          <button id="btnDownload" class="btn-light" value="downloaded" type="submit" onclick="downloadPDF()">
+                DOWNLOAD SOCORRO DEUS
+          </button>
+      </form>
+
+
+    <div>
+      {% if msg == True %}
+        {% include 'partials/_alert2.html' %}
+      {% endif %}
+    </div>
+
 </div>
 
+
+    <!-- Função de Download do arquivo -->
+    <script>
+      document.getElementById("btnDownload").addEventListener("click", function() {
+        var filename = "testplan.pdf";
+
+        var url = "../media/testplan/testplan.pdf";
+
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", filename);
+        link.style.display = "none";
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+      });
+    </script>
 {% endblock %}

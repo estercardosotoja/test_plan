@@ -3,9 +3,10 @@ from app.views import *
 
 urlpatterns = [
     path('', index, name='index'),
-    path('manual/', manual, name='manual'),
-    path('contato/', contato, name='contato'),
-    path('playload/', playload, name='playload'),
-    path('gerador/', gerador, name='gerador'),
+    path('gerador/', generator, name='gerador'),
+    path('confirm/', confirm, name='confirm'),
     path('download/', download, name='download'),
+    path('downloaded/', downloaded, name='downloaded'),
+    path('manual/', manual, name='manual'),
+    path('contato/', contato, name='contato')
 ]
