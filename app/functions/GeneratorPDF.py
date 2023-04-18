@@ -1,117 +1,103 @@
-from reportlab.pdfgen import canvas
+from reportlab.lib.colors import Color
 from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfgen import canvas
+from reportlab.lib.colors import Color
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.enums import TA_CENTER
+from reportlab.lib import colors
+from reportlab.platypus import Paragraph
 
 
-class FilePDF:
+class GeneratorPDF:
+    """
+        Gera o PDF
+    """
 
-    # 1 Title e Cabeçalho
-
-    '''
-        Configura o template do cabeçalho
-    '''
-    def cabecalho(self, pdf, infos):
-        try:
-            #Logo
-            #pdf.drawImage("../static/img/logo.png", 15, 755, width=160, height=80)
-            # A frase: Plano de Testes de API
-            pdf.setFont("Helvetica-Bold", 24)
-            pdf.drawString(180, 775, 'Plano de Testes de API')
-            # Titulo/Nome do serviço
-            pdf.setFont("Helvetica-Oblique", 16)
-            pdf.drawString(225, 740, infos['title'])
-            return 1
-        except AttributeError:
-            print(f"Erro ao preencher o cabeçalho")
-            return 0
-
-# 2 Informaçoes
-    '''
-        Preenche o campo destinado a informações
-    '''
-    def pdf_info(self, pdf, infos):
-        try:
-            # Informações
-            pdf.setFont("Helvetica-Bold", 14)
-            pdf.drawString(40, 720, "Informações:")
-            pdf.setFont("Helvetica", 12)
-            pdf.drawString(40, 700, f"Versão : {infos['versao']}")
-            pdf.drawString(40, 685, f"URL : {infos['url']}")
-            return 1
-        except AttributeError:
-            print(f"Erro ao preencher as informações")
-            return 0
-
-# 3 End points
-    '''
-        Preenche o campo destinado o nome dos Paths
-    '''
-    def pdf_path(self, pdf, paths):
-        try:
-            pdf.setFont("Helvetica-Bold", 14)
-            pdf.drawString(30, 640, "Descrição dos testes:")
-            pos_y = 615
-            for path in paths:
-                pdf.setFont("Helvetica-Bold", 12)
-                pdf.drawString(40, pos_y, path)
-                pos_y -= 20
-        except AttributeError:
-            print(f"Erro ao preencher as descrição dos testes")
-            return 0
-# 4 Verbs
-    '''
-        Preenche o campo destinado os Verbs
-    '''
-    def pdf_verbs(self, pdf, verbs):
-        try:
-            pdf.setFont("Helvetica-Bold", 14)
-            pdf.drawString(30, 640, "Verbs dos testes:")
-            pos_y = 615
-            for end, verb in verbs.items():
-                pdf.setFont("Helvetica-Bold", 12)
-                pdf.drawString(40, pos_y, end)
-                pos_y -= 20
-                for i in verb:
-                    pdf.setFont("Helvetica-Bold", 12)
-                    pdf.drawString(50, pos_y, i)
-                    pos_y -= 20
-                    pos_y = self.new_page(pdf, pos_y)
-        except AttributeError:
-            print(f"Erro ao preencher os verbos dos testes")
-            return 0
-
-    '''
-       Gera novas páginas quando o contéudo chega no final
-    '''
-    def new_page(self, pdf, pos_y):
-        try:
-            if pos_y <= 15:
-                pdf.showPage()
-                pos_y = 700
-                return pos_y
-            else:
-                return pos_y
-        except AttributeError:
-            print(f"Erro ao gerar nova página")
-            return 0
-# 5 Rodape
-# Salvar
-
-    def GeneratePDF(self, infos, paths, verbs):
-        nome_pdf = 'testplan'
-        pdf = canvas.Canvas('{}.pdf'.format(nome_pdf), pagesize=A4)
-        self.cabecalho(pdf, infos)
-        #Info
-        self.pdf_info(pdf, infos)
-        # Testes
-        self.pdf_verbs(pdf, verbs)
+    def Gerar(dados):
+        altura = 700
+        # Intanciar arquivo
+        name_pdf = "testplan"
+        diretorio = "media/testplan/"
+        caminho_completo = diretorio + name_pdf
+        pdf = canvas.Canvas('{}.pdf'.format(caminho_completo), pagesize=A4)
+        for key, value in dados.items():
+            altura = altura - 30
+            element_type(value, key, pdf, altura)
+        # Logo
+        pdf.setFillColorRGB(0, 0, 0)
+        pdf.drawImage("setup/static/img/logo.png", 15, 755, width=160, height=80)
+        # A frase: Plano de Testes de API
+        pdf.setFont("Helvetica-Bold", 24)
+        pdf.drawString(180, 775, 'Plano de Testes de API')
+        # Titulo/Nome do serviço
+        pdf.setFont("Helvetica-Oblique", 16)
+        pdf.drawString(225, 740, "TESTES DE API")
         pdf.save()
-        print('{}.pdf criado com sucesso!'.format(nome_pdf))
+        print('{}.pdf criado com sucesso!'.format(name_pdf))
+        return 1
 
 
 """
-a = Extrator(PATH_JSON)
-infos = a.info()
-paths = a.path()
-verbs = a.verbs_new()
-a.generatePDF(infos, paths, verbs)
+    Determina a cor dos verbos
 """
+
+
+def element_type(value, key, pdf, altura):
+    if value == "path":
+        font_path(pdf)
+        pdf.drawString(100, altura, 'EndPoint:     ' + key)
+    elif value == 'verb':
+        font_verb(pdf)
+        if key == 'post':
+            # green
+            pdf.setFillColorRGB(153, 4, 50)
+            pdf.drawString(150, altura, key.upper())
+        elif key == 'get':
+            # blue
+            pdf.setFillColorRGB(0, 127, 255)
+            pdf.drawString(150, altura, key.upper())
+            return altura
+        elif key == 'delete':
+            # red
+            pdf.setFillColorRGB(255, 0, 0)
+            pdf.drawString(150, altura, key.upper())
+            return altura
+        elif key == 'put':
+            # orange
+            pdf.setFillColorRGB(205, 127, 50)
+            pdf.drawString(150, altura, key.upper())
+            return altura
+        elif key == 'PATCH':
+            # blue clean
+            pdf.setFillColorRGB(0, 255, 255)
+            pdf.drawString(150, altura, key.upper())
+            return altura
+        else:
+            # gray
+            pdf.setFillColorRGB(168, 168, 168)
+            pdf.drawString(150, altura, key.upper())
+            return altura
+    else:
+        font_verb(pdf)
+        pdf.setFillColorRGB(0, 0, 0)
+        pdf.drawString(200, altura, key)
+
+
+"""
+    Determina a fonte do path
+"""
+
+def font_path(pdf):
+    pdf.setFont("Helvetica-Bold", 12)
+
+
+"""
+    Determina a fonte dos verbs
+"""
+def font_verb(pdf):
+    pdf.setFont("Helvetica-Bold", 10)

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <body>
+        {% include 'partials/_downloaded.html' %}
+
+        {% if msg == True %}
+          {% include 'partials/_alert2.html' %}
+        {% endif %}
+
+    </body>
+
+{% endblock %}

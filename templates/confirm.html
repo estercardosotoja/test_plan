@@ -1,18 +1,34 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h1> Opções selecionadas </h1>
+
+<h1 xmlns="http://www.w3.org/1999/html"> Opções selecionadas </h1>
   <form method="post" action="{% url 'download' %}"  enctype="application/x-www-form-urlencoded">
      {% csrf_token %}
 
-    <h2> Paths selecionados: </h2>
-     {{ selected_paths }}
-    <h2> Verbos selecionados: </h2>
-         {{ selected_verbs }}
-         {{ msg }}
+    <ul class="list-group-horizontal-lg">
+        {% for elemento in ordem_para_imprimir.items %}
+          {% if elemento.1 == 'path' %}
+            {% include 'partials/_list_paths.html' with item=elemento.0 %}
+          {% elif elemento.1 == 'verb' %}
+            {% include 'partials/_list_verbs.html' with item=elemento.0 %}
+          {% elif elemento.1 == 'cpm' %}
+            {% include 'partials/_list_cmps.html' with item=elemento.0 %}
+          {% else %}
+            {% include 'templates/partials/_alert2.html' with item=elemento.2 %}
+          {% endif %}
+        {% endfor %}
+    </ul>
+
+      <DIV>
+        {% if msg == True %}
+            {% include 'partials/_alert2.html' %}
+        {% endif %}
+      </DIV>
+
+
     <div class="form_confirmar">
      <button  id="btn-light" class="btn-light" value="download"  type="submit"> Confirma </button>
     </div>
+
   </form>
-
-
 {% endblock %}

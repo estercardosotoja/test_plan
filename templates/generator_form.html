@@ -1,37 +1,219 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
+<style>
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .descricao_path {
+        text-align: left;
+        font-size: xx-large;
+        font-size: 1.5rem;
+        color:  #02bcb9cb;
+        display: inline;
+
+    }
+
+    .descricao_verb {
+        text-align: left;
+        font-size: larger;
+        font-size: 1.2rem;
+        color:  #02bcb9cb;
+        display: inline;
+    }
+
+    .descricao_status {
+        text-align: left;
+        font-size: larger;
+        font-size: 1.2rem;
+        color:  #02bcb9cb;
+        display: inline;
+        margin-left: -18rem;
+    }
+
+    .paths_text {
+        text-align: left;
+        font-size: 1.4rem;
+        color:  #ffffff;
+
+    }
+
+    .verbs{
+        text-align: left;
+        font-size: 1rem;
+        font-size: larger;
+        margin-left: -400px;
+        color:  #02bcb9cb;
+        display: inline;
+    }
+
+    .p_cmps{
+        display: inline;
+        margin-top: 3px;
+        margin-bottom: 5px;
+        margin-left: -230px;
+        color:  #02bcb9cb;
+        display: inline;
+    }
+
+    .p_status{
+        display: inline;
+        margin-top: 3px;
+        margin-bottom: 5px;
+        color:  #02bcb9cb;
+    }
+
+    .p_schema{
+        display: inline;
+        margin-top: 3px;
+        margin-bottom: 5px;
+        margin-left: -250px;
+        color:  #02bcb9cb;
+    }
+
+
+    .cps_obg {
+        text-align: left;
+        margin-left: -90px;
+        display: inline
+    }
+
+     .status{
+        text-align: left;
+        margin-left: 0px;
+        display: inline
+    }
+
+    .schema{
+        text-align: left;
+        margin-left: -110px;
+        display: inline   
+    }
+
+    .div_paths{
+        background-color: rgb(73, 78, 78);
+        margin-top: 25px;
+        margin-bottom: 25px;
+        padding: 25px;   
+        border-radius: 2%;
+    }
+
+    .infos{
+        text-align: center;
+        margin-left: 80px;
+        text-decoration: solid;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 0.9rem;
+        }
+
+    .div_infos{
+        margin-top: 15px;
+    }
+
+    .h1{
+        margin-top: 50px;
+        text-align: center;
+        color: #8efaf8;
+    }
+
+    .span{
+        text-align: left;
+        margin-left: -160px;
+    }
+
+    .btn-info{
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+
+    .text_area{
+        margin-top: 5px;
+        margin-bottom: 30px;
+    }
+
+</style>
+
+<!-- Observações TextArea -->
+<script>
+    function mostrarTextArea() {
+    var divTextArea = document.getElementById("divTextArea");
+    divTextArea.style.display = "block";
+    }
+</script>
+
     <div>
-        <div>
-            <h1> {{ title }}</h1>
-            <h6> Version: {{ version }}</h6>
+        <h1 class="h1"> {{ title }} </h1>
+        <div class="div_infos">
+            <h6 class="infos"> Version: {{ version }}</h6>
+            <h6 class="infos"> Base URL: {{ host_base_path }}</h6>
         </div>
-        <p> {{opcoes}}</p>
-        <form method="post" action="{% url 'saida' %}"  enctype="application/x-www-form-urlencoded">
+
+        <form method="post" action="{% url 'confirm' %}"  enctype="application/x-www-form-urlencoded">
             {% csrf_token %}
 
-                {% with count=0 %}
-                <p> Paths </p>
-                {% for path, path_object in paths.items %}
-                    {% with count|add:1 as count %}
-                    {% for verb, verb_object in path_object.items %}
-                        <tr>
-                            <td><input type="checkbox" id="{{ count }}" name="path" value="{{path}}"> {{ path }} </td>
-                            <td><input type="checkbox" id="{{ verb }}" name="verb" value="{{verb}}"> {{ verb }}</td>
-                            {% for parameter in verb_object.parameters %}
-                                <td>{{ parameter.name }}</td>
-                                <td>{% if parameter.required %}Yes{% else %}No{% endif %}</td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                    {% endwith %}
-                {% endfor %}
-                {% endwith %}
+            {% with seq=0 %}
+            <div>
+                <!-- Paths -->
+                <ul>
+                    {% for path, path_object in paths.items %}
+                    <div class="div_paths">
+                    {% with seq|add:1 as seq %}
+                        <li>
+                            {% include 'partials/_checkout_path.html' with path=path %}
+                            <!-- Verbs -->
+                            <ul>
+                                {% for verb, verb_object in path_object.items %}                      
+                                    {% with seq|add:1 as seq %}
+                                        {% include 'partials/_checkout_verbs.html' with verb=verb cor=cor %}
+                                        
+                                        <!-- Lista dos Campos Obrigatórios e opcionais -->
+                                        {% for parameter in verb_object.parameters %}
+                                            {% include 'partials/_checkout_cps_obri.html' with item=parameter.name parameter=parameter type=parameter.type %}
+                                        {% endfor %}
 
-            <div class="form-example">
-                <input type="submit" value="Subscribe!">
+                                        {% with seq|add:1 as seq %}
+                                        <!-- Lista dos Status Codes -->
+                                        {% for status, status_object in verb_object.responses.items %}
+                                            {% include 'partials/_checkout_status_code.html' with status=status %}
+                                        
+                                            <!-- Lista dos Schemas -->
+                                            {% for schema, schema_objets in status_object.items %}
+                                                {% if schema == "schema" %}
+                                                    {% include 'partials/_checkout_schema.html' with schema_objets=schema_objets %}
+                                                {% endif %}
+                                               
+                                            {% endfor %}
+                                        {% endfor %}
+                                        {% endwith %}
+                                    {% endwith %}
+                                {% endfor %}
+                            </ul>                    
+                        </li>
+                    {% endwith %}
+                    </div>
+                    {% endfor %}
+                
+                </ul>
             </div>
+            {% endwith %}
+            
+            <button class="btn-info" type="button" onclick="mostrarTextArea()"> Adicionar bservações </button>
+            
+            <div class="text_area"  id="divTextArea" style="display:none;">
+                {% include 'partials/_checkout_text_area.html' %}
+            </div>    
+
+            <div>
+                <button  class="btn-primary" type="submit" value="Gerador!"> Gerar Plano </button>
+            </div>
+
         </form>
+
     </div>
+    
 {% endblock %}
 

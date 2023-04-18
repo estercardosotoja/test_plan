@@ -37,6 +37,12 @@ class ReadFile:
         except FileNotFoundError:
             print('\n Erro ao abrir o arquivo')
             return 0
+        except TypeError:
+            print('\n Erro ao abrir o arquivo')
+            return 0
+        except BaseException:
+            print('\n Erro ao abrir o arquivo')
+            return 0
 
     '''
         Abre o arquivo de extensão JSON retornando o conteúdo.
@@ -52,6 +58,13 @@ class ReadFile:
         except JSONDecodeError:
             print('\n Erro ao abrir o arquivo')
             return 0
+        except TypeError:
+            print('\n Erro ao abrir o arquivo')
+            return 0
+        except BaseException:
+            print('\n Erro ao abrir o arquivo')
+            return 0
+
 
     '''
         Valida qual a extensão chamando o metodos que extraem o 
@@ -76,11 +89,3 @@ class ReadFile:
         except JSONDecodeError:
             print('\n Erro ao abrir o arquivo')
             return 0
-
-
-"""
-PATH = 'support/swagger/d1.json'
-arq_ex = ReadFile(PATH)
-arq_ex = arq_ex.json_or_yaml()
-print(arq_ex)
-"""

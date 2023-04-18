@@ -123,7 +123,8 @@ h6 {
     margin-top: 0;
     margin-bottom: .5rem;
     font-weight: 500;
-    line-height: 1.2
+    line-height: 1.2;
+    text-align: center;
 }
 
 .h1,
@@ -12789,4 +12790,5 @@ body {
     .popup{
       width: 70%;
     }
-
+  }
+  
