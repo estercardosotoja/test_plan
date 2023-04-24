@@ -1,11 +1,10 @@
 {% load static %}
 
-
 {% if item|length > 0 %}
 <li>
   <p class="cps_obg">
      {% if parameter.required %} <p class="cps_obg"> Campo obrigatório: </p> {% else %} <p class="cps_obg"> Campo Opcional: </p> {% endif %}
-     <input type="checkbox" id="count" name=ordem value="{{ item }}"> {{ item }} {% if type %} - [ {{type}} ]  {% endif %}
+     <input type="checkbox" id="count" name="ordem" value="{{ item }}"> {{ item }} {% if type %} - [ {{type}} ]  {% endif %}
   </p>
 </li>
 {% endif %}

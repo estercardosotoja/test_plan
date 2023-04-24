@@ -1,25 +1,119 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
 
-<h1 xmlns="http://www.w3.org/1999/html"> Opções selecionadas </h1>
+  .h1{   
+    margin-top: 50px;   
+  }
+  
+  .div_paths{
+    background-color: rgb(77, 73, 78);
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 25px;   
+    border-radius: 2%;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .descricao_path {
+    color:  #ffffff;
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: inline;
+    text-align: left;
+    margin-left: -160px;
+  }
+
+  .descricao_verb {
+    color:  #ffffff;
+    font-weight: bolder;
+    font-size: 1rem;
+    display: inline;
+    text-align: left;
+    margin-left: -130px;
+  }
+
+  .p_cmps{
+    color: #ffffff;
+    text-align: left;
+    margin-left: -100px;
+    font-weight: bolder;
+  }
+
+  .p_status{
+    display: inline;
+    color:  #ffffff;
+    text-align: left;
+    margin-left: -100px;
+    font-weight: bolder;
+  }
+
+  .p_schema{
+      display: inline;
+      color:  #ffffff;
+      text-align: left;
+      margin-left: -100px;
+      font-weight: bolder;
+  }
+</style>
+
+<script> 
+  var elemento1; 
+  var elemento2; 
+  const lista = document.querySelector("#lista");
+</script>
+
+<script>
+  function valida_inicio_string(string, text) {
+    if (string.startsWith(text)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+</script>
+
+<h1 class="h1"> Resumo </h1>
+
   <form method="post" action="{% url 'download' %}"  enctype="application/x-www-form-urlencoded">
      {% csrf_token %}
-
-    <ul class="list-group-horizontal-lg">
+     
+    <div class="div_paths"> 
+      <ul id="lista" class="list-group-horizontal-lg">
         {% for elemento in ordem_para_imprimir.items %}
-          {% if elemento.1 == 'path' %}
-            {% include 'partials/_list_paths.html' with item=elemento.0 %}
-          {% elif elemento.1 == 'verb' %}
-            {% include 'partials/_list_verbs.html' with item=elemento.0 %}
-          {% elif elemento.1 == 'cpm' %}
-            {% include 'partials/_list_cmps.html' with item=elemento.0 %}
-          {% else %}
-            {% include 'templates/partials/_alert2.html' with item=elemento.2 %}
-          {% endif %}
-        {% endfor %}
-    </ul>
+          <script> 
+            elemento1 = "{{ elemento.1 }}"; 
+            elemento2 = "{{ elemento.0 }}"; 
 
-      <DIV>
+            if (valida_inicio_string(elemento1, "path")){
+              var novoItem = "<li>  <p class='descricao_path'> Path: </p> " + elemento2 + "</li>";
+              document.getElementById("lista").innerHTML += novoItem;
+            } else if (valida_inicio_string(elemento1, "verb")){
+              var novoItem = "<li> <p class='descricao_verb'> Método: </p> " + elemento2 + "</li>";
+              document.getElementById("lista").innerHTML += novoItem;
+            } else if (valida_inicio_string(elemento1, "cmp")){
+              var novoItem = "<li> <p class='p_cmps'> Campos: </p> " + elemento2 + "</li>";
+              document.getElementById("lista").innerHTML += novoItem;
+            } else if (valida_inicio_string(elemento1, "status")){ 
+              var novoItem = "<li> <p class='p_status'> Status: </p> " + elemento2 + "</li>";
+              document.getElementById("lista").innerHTML += novoItem;
+            } else if (valida_inicio_string(elemento1, "schema")){
+              var novoItem = "<li> <p class='p_schema'> Schema: </p>" + elemento2 + "</li>";
+              document.getElementById("lista").innerHTML += novoItem;
+            } else {
+              var novoItem = "<li>" + elemento2 + "</li>";
+              document.getElementById("lista").innerHTML += novoItem;
+            }
+          </script>
+        {% endfor %}
+      </ul>
+    </div>
+      <DIV> 
         {% if msg == True %}
             {% include 'partials/_alert2.html' %}
         {% endif %}
@@ -27,7 +121,7 @@
 
 
     <div class="form_confirmar">
-     <button  id="btn-light" class="btn-light" value="download"  type="submit"> Confirma </button>
+      <button  id="btn-light" class="btn-light" value="download"  type="submit"> Confirma </button>
     </div>
 
   </form>

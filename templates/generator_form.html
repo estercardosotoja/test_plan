@@ -75,7 +75,6 @@
         color:  #02bcb9cb;
     }
 
-
     .cps_obg {
         text-align: left;
         margin-left: -90px;
@@ -104,7 +103,6 @@
 
     .infos{
         text-align: center;
-        margin-left: 80px;
         text-decoration: solid;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         font-size: 0.9rem;
@@ -145,6 +143,23 @@
     }
 </script>
 
+<!-- Obtém o checkbox para selecionar todos -->
+<script>
+    function checkAll() {
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = true;
+    }
+    }
+
+    function limpacheckAll() {
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = false;
+    }
+    }
+</script>
+
     <div>
         <h1 class="h1"> {{ title }} </h1>
         <div class="div_infos">
@@ -156,7 +171,9 @@
             {% csrf_token %}
 
             {% with seq=0 %}
-            <div>
+            <div id="count" >
+                <button type="button" onclick="checkAll()">Selecionar Todos</button>
+                <button type="button" onclick="limpacheckAll()">Limpar Todos</button>
                 <!-- Paths -->
                 <ul>
                     {% for path, path_object in paths.items %}

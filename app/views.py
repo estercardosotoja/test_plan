@@ -1,6 +1,5 @@
 import tempfile
 import os
-import tempfile
 
 from django.http import HttpResponse, Http404, QueryDict
 
@@ -22,13 +21,31 @@ infos_file_spec = None
 ordem_imprimir = None
 
 
+"""
+    Para adicionar ou alterar a variavel que 
+    possui a especificação.
+"""
+
+
 def set_infos_file_spec(value):
     global infos_file_spec
     infos_file_spec = value
 
 
+"""
+    Para retornar os dados da variavel que 
+    possui a especificação.
+"""
+
+
 def get_infos_file_spec():
     return infos_file_spec
+
+
+"""
+    Para adicionar ou alterar a variavel que 
+    possui a ordem que os dados foram selecionados.
+"""
 
 
 def set_ordem_imprimir(value):
@@ -36,11 +53,25 @@ def set_ordem_imprimir(value):
     ordem_imprimir = value
 
 
+"""
+    Para retornar os dados da variavel que  
+    possui a ordem que os dados foram selecionados.
+"""
+
+
 def get_ordem_imprimir():
     return ordem_imprimir
 
 
+"""
+    Verifica se há um post sendo enviado e verifica se há uma arquivo nas requisições.
+    Valida se o arquivo é um json e a sintaxe é conforme a OpenApi e retorna o nome do arquivo e 
+    os dados da especificação, chamando a url "generator_form.html". 
+"""
+
+
 def index(request):
+
     context = {}
     try:
         # Valida que há um envio do formulário do arquivo
@@ -70,9 +101,7 @@ def index(request):
                     }
                     set_infos_file_spec(infos_arq_spec)
                     context = infos_spec(infos_arq_spec)
-                    print(context)
                     return render(request, "../templates/generator_form.html", context)
-
             else:
                 context = alert('Selecione um arquivo para realizar o upload!')
                 return render(request, "index.html", context)
@@ -86,6 +115,12 @@ def index(request):
         return render(request, "index.html", context)
 
 
+"""
+   Renderiza o html o qual tem toda a lógica em Jinja2 para exibir
+    os dados do arquivo de especificação. 
+"""
+
+
 def generator(request, context):
     try:
         return render(request, "generator_form.html", context)
@@ -94,24 +129,30 @@ def generator(request, context):
         return render(request, "index.html", context)
 
 
+"""
+   Valida se houve o envio do formulário encaminhando para a página de download.
+   Em caso de estar acessando a primeira vez a página, recebe os dados em ordem 
+   e em outra variavel recebe os dados separados pelos tipos de campos.
+   Após é criada a ordem_para_imprimir passando para imprimir e com os respectivos
+   tipos para serem processados para o html. 
+"""
+
+
 def confirm(request):
     try:
         if request.method == 'POST':
             if 'download' in request.POST:
                 return render(request, '../templates/dynamic/download.html')
             else:
-
                 ordem_request = request.POST.getlist('ordem')
                 paths_verbs_all = paths_verbs_cmp(get_infos_file_spec())
 
                 ordem_para_imprimir = tipos_dos_campos_paths_verbs_cmps(paths_verbs_all, ordem_request)
-                # print('Ordem para imprimir:', ordem_para_imprimir)
                 set_ordem_imprimir(ordem_para_imprimir)
 
                 context = {
                     'ordem_para_imprimir': ordem_para_imprimir
                 }
-                # print('Ordem para imprimir:', ordem_para_imprimir)
                 return render(request, '../templates/confirm.html', context)
         else:
             context = alert('Algo de errado aconteceu! Recebemos outro metódo HTTP - POST')
@@ -119,6 +160,13 @@ def confirm(request):
     except TypeError:
         context = alert('Erro ao intepretar as tags do arquivo! Tente novamente')
         return render(request, '../templates/index.html', context)
+
+
+"""
+   Valida se houve o envio do formulário encaminhando para a página de downloaded.
+   Em caso de estar acessando a primeira vez a página, busca os dados na ordem para 
+   serem imprimidos e chama as funções do arquivo GeneratorPDF.py para gerar o arquivo.
+"""
 
 
 def download(request):
@@ -141,6 +189,10 @@ def download(request):
     except FileNotFoundError:
         raise Http404("O arquivo não existe")
 
+"""
+    Renderiza página com informação de download realizado.
+"""
+
 
 def downloaded(request):
     try:
@@ -150,12 +202,27 @@ def downloaded(request):
         return HttpResponseNotFound()
 
 
+"""
+    Renderiza página com informação de como utilizar a ferramenta.
+"""
+
+
 def manual(request):
     return render(request, 'manual.html')
 
 
+"""
+    Renderiza página com informação de como realizar o contato.
+"""
+
+
 def contato(request):
     return render(request, 'contato.html')
+
+
+"""
+    Renderiza os alertas e avisos em caso de erro ou falha.
+"""
 
 
 def alert(msg):
@@ -164,6 +231,11 @@ def alert(msg):
         'text': msg
     }
     return context
+
+
+"""
+    Realiza extração de dados dos json separando as informações.
+"""
 
 
 def infos_spec(spec):
@@ -183,37 +255,59 @@ def infos_spec(spec):
     return context
 
 
+"""
+    Realiza extração e organização dos dados em listas de paths, 
+    verbs, campos, status e schemas.
+"""
+
+
 def dados_separados(paths):
     context = {}
+
     all_paths = []
     all_verbs = []
     all_cmp = []
+    all_status = []
+    all_schema = []
 
     for path, path_object in paths.items():
         all_paths.append(path)
         for verb, verb_object in path_object.items():
             all_verbs.append(verb)
             if not isinstance(verb_object, dict):
-                # print(f"Esperava um objeto do tipo 'dict' para o verbo {verb}, mas recebeu {type(verb_object)}")
+                print(f"Esperava um objeto do tipo 'dict' para o verbo {verb}, mas recebeu {type(verb_object)}")
                 continue
             parameters = verb_object.get('parameters')
             if not isinstance(parameters, (list, tuple)):
-                # print(f"Esperava uma lista ou tupla de parâmetros para o verbo {verb}, mas recebeu {type(parameters)}")
+                print(f"Esperava uma lista ou tupla de parâmetros para o verbo {verb}, mas recebeu {type(parameters)}")
                 continue
             for parameter in parameters:
                 all_cmp.append(parameter['name'])
                 if parameter.get('required'):
-                    print('Campo obrigatório')
+                    print('Campo obrigatório: ', parameter['name'])
                 else:
-                    print('Campo opcional')
+                    print('Campo opcional: ', parameter['name'])
+
+            for status, status_object in verb_object['responses'].items():
+                all_status.append(status)
+                for schema, schema_objets in status_object.items():
+                    if schema == "schema":
+                        all_schema.append(schema)
 
     context = {
         'all_paths': all_paths,
         'all_verbs': all_verbs,
-        'all_cmp': all_cmp
+        'all_cmp': all_cmp,
+        'all_status': all_status,
+        'all_schema': all_schema
     }
 
     return context
+
+
+"""
+    Realiza a montagem dos dados separados em dict.
+"""
 
 
 def paths_verbs_cmp(spec):
@@ -224,51 +318,104 @@ def paths_verbs_cmp(spec):
     return separado_paths
 
 
+"""
+    Verifica a string passada e um path.
+"""
+
+
 def verifica_path(paths, item):
-   # print('PATHS: ', paths)
     for path in paths:
-    #    print(path, '==', item)
         if path == item:
             return item
 
 
+"""
+    Verifica a string passada e um verbs.
+"""
+
+
 def verifica_verbs(verbs, item):
-    # print('VERBS: ', verbs)
     for verb in verbs:
-        # print(verb, '==', item)
         if verb == item:
             return item
 
 
+"""
+    Verifica a string passada e um campo.
+"""
+
+
 def verifica_cmp(cmps, item):
-    # print('CMPS: ', cmps)
     for cmp in cmps:
-        #  print(cmp, '==', item)
         if cmp == item:
             return item
+
+
+"""
+    Verifica a string passada e um status code.
+"""
+
+
+def verifica_status_code(status_codes, item):
+    for status in status_codes:
+        if status == item:
+            return item
+
+
+"""
+    Verifica a string passada e um schema.
+"""
+
+
+def verifica_schema(schemas, item):
+    for schema in schemas:
+        if schema == item:
+            return item
+
+
+"""
+    Cria um dicionario com a chave o campo, key o tipo de dado com um numero
+    que é passado para a página confirm.html para renderizar os dados selecionados
+    pelo usuário.
+"""
 
 
 def tipos_dos_campos_paths_verbs_cmps(paths_verbs_all, ordem_request):
     ordem_para_imprimir = {}
 
+    count = 0
     paths = paths_verbs_all['all_paths']
     verbs = paths_verbs_all['all_verbs']
     cmps = paths_verbs_all['all_cmp']
+    status_codes = paths_verbs_all['all_status']
+    schemas = paths_verbs_all['all_schema']
 
     for item in ordem_request:
+        count = count + 1
         if verifica_path(paths, item) is not None:
-            path = {item: 'path'}
+            path = {item: f"path{count}"}
             ordem_para_imprimir.update(path)
         elif verifica_verbs(verbs, item) is not None:
-            verb = {item: 'verb'}
+            verb = {item: f'verb{count}'}
             ordem_para_imprimir.update(verb)
         elif verifica_cmp(cmps, item) is not None:
-            cmp = {item: 'cpm'}
+            cmp = {item: f'cpm{count}'}
             ordem_para_imprimir.update(cmp)
+        elif verifica_status_code(status_codes, item) is not None:
+            status = {item: f'status{count}'}
+            ordem_para_imprimir.update(status)
+        elif verifica_status_code(schemas, item) is not None:
+            schema = {item: f'schema{count}'}
+            ordem_para_imprimir.update(schema)     
         else:
            print(f'Vish né nada não', item)
 
     return ordem_para_imprimir
+
+
+"""
+    Valida se há paths no arquivo para confirmar que é uma especificicação.
+"""
 
 
 def valida_existencia_path(spec):
