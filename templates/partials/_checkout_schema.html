@@ -55,7 +55,6 @@
 
 <!-- Função para abrir a caixa de diálogo modal schema -->
 <script>
-  
   function abrirModal() {
     document.getElementById("myModal").style.display = "block";
   }
@@ -63,13 +62,13 @@
   function fecharModal() {
     document.getElementById("myModal").style.display = "none";
   }
-  </script>
+</script>
 
 
 <p class="p_schema"> Schemas: </p>
 <li>
   <p class="schema">
-    <input type="checkbox" id="count" name=ordem value="{{ description }}">  {{ status_object.description }}
+    <input type="checkbox" id="count" name="ordem" value="{{ status_object.description }}">  {{ status_object.description }}
     <button type="button" class="btn-secondary" onclick="abrirModal()"> Ver schema</button>
 
     <!-- Mostra o schema -->
