@@ -64,21 +64,24 @@
   }
 </script>
 
-
 <p class="p_schema"> Schemas: </p>
+
 <li>
   <p class="schema">
-    <input type="checkbox" id="count" name="ordem" value="{{ status_object.description }}">  {{ status_object.description }}
+     {{ status_object.description }}
     <button type="button" class="btn-secondary" onclick="abrirModal()"> Ver schema</button>
-
-    <!-- Mostra o schema -->
-    <div id="myModal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="fecharModal()">&times;</span>
-        <h2>{{ status_object.description }}</h2>
-        <pre> {{ status_object.schema.items }} </pre>
-      </div>
-    </div>
   </p>
+
+  <!-- Mostra o schema -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="fecharModal()">&times;</span>
+      <h2>{{ status_object.description }}</h2>
+      <pre> {{ status_object.schema.items }} </pre>
+    </div>
+  </div>
 </li>
+
+<input type="checkbox" id="count" name="ordem" value="schema:{{ status_object.description }}">
+  Validar contrato: {{ status_object.description }}
 

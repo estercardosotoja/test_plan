@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <style>
 
   .h1{   
@@ -78,7 +79,25 @@
   }
 </script>
 
-<h1 class="h1"> Resumo </h1>
+
+<script>
+  function retira_numero(string) {
+    let texto = string;
+    let dado = texto.split('-')[0].trim();
+    return dado;
+  }
+</script>
+
+<script>
+  function adicionarItemLista(texto) {
+    var novoItem = document.createElement("li");
+    novoItem.innerHTML = texto;
+    var lista = document.getElementById("lista");
+    lista.appendChild(novoItem);
+  }
+</script>
+
+  <h1 class="h1"> Resumo </h1>
 
   <form method="post" action="{% url 'download' %}"  enctype="application/x-www-form-urlencoded">
      {% csrf_token %}
@@ -87,37 +106,24 @@
       <ul id="lista" class="list-group-horizontal-lg">
         {% for elemento in ordem_para_imprimir.items %}
           <script> 
-            elemento1 = "{{ elemento.1 }}"; 
-            elemento2 = "{{ elemento.0 }}"; 
+            elemento1 = "{{ elemento.0 }}";
+            elemento2 = "{{ elemento.1 }}";
 
-            if (valida_inicio_string(elemento1, "path")){
-              var novoItem = "<li>  <p class='descricao_path'> Path: </p> " + elemento2 + "</li>";
-              document.getElementById("lista").innerHTML += novoItem;
-            } else if (valida_inicio_string(elemento1, "verb")){
-              var novoItem = "<li> <p class='descricao_verb'> Método: </p> " + elemento2 + "</li>";
-              document.getElementById("lista").innerHTML += novoItem;
-            } else if (valida_inicio_string(elemento1, "cmp")){
-              var novoItem = "<li> <p class='p_cmps'> Campos: </p> " + elemento2 + "</li>";
-              document.getElementById("lista").innerHTML += novoItem;
-            } else if (valida_inicio_string(elemento1, "status")){ 
-              var novoItem = "<li> <p class='p_status'> Status: </p> " + elemento2 + "</li>";
-              document.getElementById("lista").innerHTML += novoItem;
-            } else if (valida_inicio_string(elemento1, "schema")){
-              var novoItem = "<li> <p class='p_schema'> Schema: </p>" + elemento2 + "</li>";
-              document.getElementById("lista").innerHTML += novoItem;
-            } else {
-              var novoItem = "<li>" + elemento2 + "</li>";
-              document.getElementById("lista").innerHTML += novoItem;
-            }
+            elemento0 = retira_numero(elemento1)
+            var novoItem = elemento0 + elemento2 
+            
+            adicionarItemLista(novoItem);
           </script>
+
         {% endfor %}
       </ul>
     </div>
-      <DIV> 
-        {% if msg == True %}
-            {% include 'partials/_alert2.html' %}
-        {% endif %}
-      </DIV>
+    
+    <div> 
+      {% if msg == True %}
+          {% include 'partials/_alert2.html' %}
+      {% endif %}
+    </div>
 
 
     <div class="form_confirmar">
@@ -125,4 +131,5 @@
     </div>
 
   </form>
+
 {% endblock %}

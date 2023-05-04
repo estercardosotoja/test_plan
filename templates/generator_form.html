@@ -90,14 +90,14 @@
     .schema{
         text-align: left;
         margin-left: -110px;
-        display: inline   
+        display: inline
     }
 
     .div_paths{
         background-color: rgb(73, 78, 78);
         margin-top: 25px;
         margin-bottom: 25px;
-        padding: 25px;   
+        padding: 25px;
         border-radius: 2%;
     }
 
@@ -183,7 +183,7 @@
                             {% include 'partials/_checkout_path.html' with path=path %}
                             <!-- Verbs -->
                             <ul>
-                                {% for verb, verb_object in path_object.items %}                      
+                                {% for verb, verb_object in path_object.items %}
                                     {% with seq|add:1 as seq %}
                                         {% include 'partials/_checkout_verbs.html' with verb=verb cor=cor %}
                                         

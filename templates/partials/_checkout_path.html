@@ -1,6 +1,10 @@
 {% load static %}
-
 <h1 class="paths_text">
-    <input class="form-check-reverse" type="checkbox" id="count" name="ordem" value="{{path}}"> 
     <p class="descricao_path"> <strong> Endpoint: </strong> </p> {{path}}
 </h1>
+
+<input class="form-check-reverse" type="checkbox"  name="ordem" value="Requesicao correto:{{path}}">
+    Requisição: "{{path}}" [CORRETO]
+<br>
+<input class="form-check-reverse" type="checkbox" name="ordem" value="Requesicao invalido:{{path}}">
+    Requisição: "{{path}}" [INVÁLIDO]
