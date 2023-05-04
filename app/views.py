@@ -115,6 +115,22 @@ def index(request):
         return render(request, "index.html", context)
 
 
+
+"""
+    Valida se há paths no arquivo para confirmar que é uma especificicação.
+"""
+
+
+def valida_existencia_path(spec):
+    retorno = 0
+    for item in spec.keys():
+        if item == 'paths':
+            if len(item) > 0:
+                retorno = 1
+
+    return retorno
+
+
 """
    Renderiza o html o qual tem toda a lógica em Jinja2 para exibir
     os dados do arquivo de especificação. 
@@ -145,14 +161,11 @@ def confirm(request):
                 return render(request, '../templates/dynamic/download.html')
             else:
                 ordem_request = request.POST.getlist('ordem')
-                paths_verbs_all = paths_verbs_cmp(get_infos_file_spec())
-
-                ordem_para_imprimir = tipos_dos_campos_paths_verbs_cmps(paths_verbs_all, ordem_request)
-                set_ordem_imprimir(ordem_para_imprimir)
-
+                exibir_path = exibir_dados(ordem_request)
                 context = {
-                    'ordem_para_imprimir': ordem_para_imprimir
+                    'ordem_para_imprimir': exibir_path
                 }
+                set_ordem_imprimir(exibir_path)
                 return render(request, '../templates/confirm.html', context)
         else:
             context = alert('Algo de errado aconteceu! Recebemos outro metódo HTTP - POST')
@@ -160,6 +173,58 @@ def confirm(request):
     except TypeError:
         context = alert('Erro ao intepretar as tags do arquivo! Tente novamente')
         return render(request, '../templates/index.html', context)
+
+
+"""
+    Serar elemento, do que está sendo selecionado para teste;
+"""
+
+
+def separa_string_elemento(string):
+    texto = string
+    dado = texto.split(':')[1].strip()
+    return dado
+
+
+"""
+    Serar elemento, do que está sendo selecionado para teste;
+"""
+
+
+def separa_string_descricao(string, num):
+    texto = string
+    dado = texto.split(':')[0].strip()
+    return f'{dado} -{num}'
+
+
+"""
+   Montar dict para ser exibido na tela de confirm em ordem de exibição 
+"""
+
+
+def montar_dict_confirm(elemento, num):
+  try:
+    key = separa_string_elemento(elemento)
+    value = separa_string_descricao(elemento, num)
+    dado = {value: key}
+    return dado
+  except IndexError:
+    return {'oservacao' : elemento}
+
+
+"""
+    Itera com os dados em ordem para gerar os dados 
+"""
+
+
+def exibir_dados(ORDEM):
+  testes = { }
+  num = 0
+  for elemento in ORDEM:
+    num = num + 1
+    dado = montar_dict_confirm(elemento, num)
+    testes.update(dado)
+  return testes
 
 
 """
@@ -178,16 +243,83 @@ def download(request):
                 context = {
                     'dados': get_ordem_imprimir()
                 }
-
-                arq = GeneratorPDF.Gerar(get_ordem_imprimir())
+                #print(get_ordem_imprimir())
+                #spec_separada = paths_verbs_cmp(get_infos_file_spec())
+                GeneratorPDF.Gerar(get_infos_file_spec())
                 return render(request, '../templates/download.html', context=context)
         else:
             return render(request, '../templates/index.html',
                           context=alert('Algo de errado aconteceu! Recebemos outro metódo HTTP!'))
     except TypeError:
-        return render(request, '../templates/confirm.html', context=alert('Algo de errado aconteceu : TypeError!'))
+        return render(request, '../templates/index.html', context=alert('Algo de errado aconteceu : TypeError!'))
     except FileNotFoundError:
         raise Http404("O arquivo não existe")
+
+
+"""
+    Realiza a montagem dos dados separados em dict.
+"""
+
+
+def paths_verbs_cmp(spec):
+    dados_gerais = infos_spec(spec)
+    separados_geral = dados_gerais['paths']
+    separado_paths = dados_separados(separados_geral)
+
+    return separado_paths
+
+
+"""
+    Realiza extração e organização dos dados em listas de paths, 
+    verbs, campos, status e schemas.
+"""
+
+
+def dados_separados(paths):
+    context = {}
+
+    all_paths = []
+    all_verbs = []
+    all_cmp = []
+    all_status = []
+    all_schema = []
+
+    for path, path_object in paths.items():
+        all_paths.append(path)
+        for verb, verb_object in path_object.items():
+            all_verbs.append(verb)
+            if not isinstance(verb_object, dict):
+                #print(f"Esperava um objeto do tipo 'dict' para o verbo {verb}, mas recebeu {type(verb_object)}")
+                continue
+            parameters = verb_object.get('parameters')
+            if not isinstance(parameters, (list, tuple)):
+                #print(f"Esperava uma lista ou tupla de parâmetros para o verbo {verb}, mas recebeu {type(parameters)}")
+                continue
+            for parameter in parameters:
+                all_cmp.append(parameter['name'])
+                if parameter.get('required'):
+                   # print('Campo obrigatório: ', parameter['name'])
+                    continue
+                else:
+                    # print('Campo opcional: ', parameter['name'])
+                    continue
+
+            for status, status_object in verb_object['responses'].items():
+                all_status.append(status)
+                for schema, schema_objets in status_object.items():
+                    if schema == "schema":
+                        all_schema.append(schema)
+
+    context = {
+        'all_paths': all_paths,
+        'all_verbs': all_verbs,
+        'all_cmp': all_cmp,
+        'all_status': all_status,
+        'all_schema': all_schema
+    }
+
+    return context
+
 
 """
     Renderiza página com informação de download realizado.
@@ -255,174 +387,3 @@ def infos_spec(spec):
     return context
 
 
-"""
-    Realiza extração e organização dos dados em listas de paths, 
-    verbs, campos, status e schemas.
-"""
-
-
-def dados_separados(paths):
-    context = {}
-
-    all_paths = []
-    all_verbs = []
-    all_cmp = []
-    all_status = []
-    all_schema = []
-
-    for path, path_object in paths.items():
-        all_paths.append(path)
-        for verb, verb_object in path_object.items():
-            all_verbs.append(verb)
-            if not isinstance(verb_object, dict):
-                print(f"Esperava um objeto do tipo 'dict' para o verbo {verb}, mas recebeu {type(verb_object)}")
-                continue
-            parameters = verb_object.get('parameters')
-            if not isinstance(parameters, (list, tuple)):
-                print(f"Esperava uma lista ou tupla de parâmetros para o verbo {verb}, mas recebeu {type(parameters)}")
-                continue
-            for parameter in parameters:
-                all_cmp.append(parameter['name'])
-                if parameter.get('required'):
-                    print('Campo obrigatório: ', parameter['name'])
-                else:
-                    print('Campo opcional: ', parameter['name'])
-
-            for status, status_object in verb_object['responses'].items():
-                all_status.append(status)
-                for schema, schema_objets in status_object.items():
-                    if schema == "schema":
-                        all_schema.append(schema)
-
-    context = {
-        'all_paths': all_paths,
-        'all_verbs': all_verbs,
-        'all_cmp': all_cmp,
-        'all_status': all_status,
-        'all_schema': all_schema
-    }
-
-    return context
-
-
-"""
-    Realiza a montagem dos dados separados em dict.
-"""
-
-
-def paths_verbs_cmp(spec):
-    dados_gerais = infos_spec(spec)
-    separados_geral = dados_gerais['paths']
-    separado_paths = dados_separados(separados_geral)
-
-    return separado_paths
-
-
-"""
-    Verifica a string passada e um path.
-"""
-
-
-def verifica_path(paths, item):
-    for path in paths:
-        if path == item:
-            return item
-
-
-"""
-    Verifica a string passada e um verbs.
-"""
-
-
-def verifica_verbs(verbs, item):
-    for verb in verbs:
-        if verb == item:
-            return item
-
-
-"""
-    Verifica a string passada e um campo.
-"""
-
-
-def verifica_cmp(cmps, item):
-    for cmp in cmps:
-        if cmp == item:
-            return item
-
-
-"""
-    Verifica a string passada e um status code.
-"""
-
-
-def verifica_status_code(status_codes, item):
-    for status in status_codes:
-        if status == item:
-            return item
-
-
-"""
-    Verifica a string passada e um schema.
-"""
-
-
-def verifica_schema(schemas, item):
-    for schema in schemas:
-        if schema == item:
-            return item
-
-
-"""
-    Cria um dicionario com a chave o campo, key o tipo de dado com um numero
-    que é passado para a página confirm.html para renderizar os dados selecionados
-    pelo usuário.
-"""
-
-
-def tipos_dos_campos_paths_verbs_cmps(paths_verbs_all, ordem_request):
-    ordem_para_imprimir = {}
-
-    count = 0
-    paths = paths_verbs_all['all_paths']
-    verbs = paths_verbs_all['all_verbs']
-    cmps = paths_verbs_all['all_cmp']
-    status_codes = paths_verbs_all['all_status']
-    schemas = paths_verbs_all['all_schema']
-
-    for item in ordem_request:
-        count = count + 1
-        if verifica_path(paths, item) is not None:
-            path = {item: f"path{count}"}
-            ordem_para_imprimir.update(path)
-        elif verifica_verbs(verbs, item) is not None:
-            verb = {item: f'verb{count}'}
-            ordem_para_imprimir.update(verb)
-        elif verifica_cmp(cmps, item) is not None:
-            cmp = {item: f'cpm{count}'}
-            ordem_para_imprimir.update(cmp)
-        elif verifica_status_code(status_codes, item) is not None:
-            status = {item: f'status{count}'}
-            ordem_para_imprimir.update(status)
-        elif verifica_status_code(schemas, item) is not None:
-            schema = {item: f'schema{count}'}
-            ordem_para_imprimir.update(schema)     
-        else:
-           print(f'Vish né nada não', item)
-
-    return ordem_para_imprimir
-
-
-"""
-    Valida se há paths no arquivo para confirmar que é uma especificicação.
-"""
-
-
-def valida_existencia_path(spec):
-    retorno = 0
-    for item in spec.keys():
-        if item == 'paths':
-            if len(item) > 0:
-                retorno = 1
-
-    return retorno

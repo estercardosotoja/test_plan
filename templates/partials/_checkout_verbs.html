@@ -1,11 +1,15 @@
 {% load static %}
 
 {% if verb|length > 0 %}
+
 <li>
   <p class="verbs">
-    <input type="checkbox" id="count" name="ordem" value="{{ verb }}">
       <p class="descricao_verb"> <strong> Método:</strong> </p>
       <strong> {{ verb.upper }} </strong>
   </p>
 </li>
+
+<input class="form-check-reverse" type="checkbox" name="ordem" value="verbo:{{verb}}">
+    Verbo: ["{{verb.upper}}"]
+
 {%endif%}

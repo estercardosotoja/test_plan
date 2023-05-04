@@ -2,16 +2,15 @@
 {% load static %}
 {% block content %}
 <div>
-    <h3> Seu arquivo está pronto para download: </h3>
+    <h3>  Plano de Testes </h3>
 </div>
 <div>
       <form method="post" action="{% url 'downloaded' %}" enctype="application/x-www-form-urlencoded">
         {% csrf_token %}
           <button id="btnDownload" class="btn-light" value="downloaded" type="submit" onclick="downloadPDF()">
-                DOWNLOAD SOCORRO DEUS
+            Download PDF
           </button>
-      </form>
-
+      </form> 
 
     <div>
       {% if msg == True %}
