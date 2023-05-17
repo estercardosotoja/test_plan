@@ -1,24 +1,22 @@
 {% load static %}
 
+
 {% if item|length > 0 %}
-<li>
-  <p class="cps_obg">
-    {% if parameter.required %}
-      <p class="cps_obg"> Campo obrigatório: </p>
-    {% else %}
-      <p class="cps_obg"> Campo Opcional: </p>
-    {% endif %}
-     {{ item }} {% if type %} - [ {{type}} ]  {% endif %}
-  </p>
-</li>
-
-<input type="checkbox" name="ordem" value="Parameter correto:{{item}}"> Validar parâmetro [correto]
-  <br>
-<input type="checkbox" name="ordem" value="Parameter vazio:{{ item }}"> Validar parâmetro [vazio]
-  <br>
-<input type="checkbox" name="ordem" value="Parameter ausente:{{ item }}"> Validar parâmetro [ausente]
-  <br>
-<input type="checkbox" name="ordem" value="Parameter com tipo diferente :{{ item }}"> Validar parâmetro com tipo
-dado diferente {% if type %} - [ {{type}} ]  {% endif %}
-
+    <div class="descricao_campos"> 
+        {% if parameter.required %}
+          Campo obrigatório: {{ item }} {% if type %} - [ {{type}} ]  {% endif %}
+        {% else %}
+          Campo Opcional: {{ item }} {% if type %} - [ {{type}} ]  {% endif %}
+        {% endif %}
+    </div>
+    <div class="p_cmp">
+    <input type="checkbox" name="ordem" value="Parameter correto:{{item}}"> Validar parâmetro [correto]
+      <br>
+    <input type="checkbox" name="ordem" value="Parameter vazio:{{ item }}"> Validar parâmetro [vazio]
+      <br>
+    <input type="checkbox" name="ordem" value="Parameter ausente:{{ item }}"> Validar parâmetro [ausente]
+      <br>
+    <input type="checkbox" name="ordem" value="Parameter com tipo diferente :{{ item }}"> 
+    Validar parâmetro com tipo dado diferente {% if type %} - [ {{type}} ]  {% endif %}
+  </div>
 {% endif %}

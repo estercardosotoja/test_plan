@@ -4,24 +4,41 @@
 
 <style>
   h1{
-    color: #5f50ff ;
+    color: #0066CC ;
   }
+
+  .button2 {
+    background-color: 008CBA; 
+    color: #ffffff; 
+    font-weight: 600;
+    border: 2px solid rgba(0, 139, 186, 0.305);
+    border-radius: 2em;
+    padding: 0.5em 2em;
+    text-decoration: none;  
+  }
+
+  .button2:hover, .button2:focus{
+    background-color: #0066CC;
+    border: 2px solid #03759b78;
+    color: white;
+    padding: 0.5em 2em;
+    text-decoration: none;
+  }
+
 </style>
 
   <main class="px-3">
     <h1>Plano de Teste de API</h1>
     <p class="lead">Para iniciar selecione um arquivo de especificação de extensão .yaml e .json </p>
     <p class="lead">
-      <a href="#popup1" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Iniciar</a>
+      <a href="#popup1" class="button2">Iniciar</a>
     </p>
-
   </main>
-
-    <body>
-        {% include 'partials/_forms.html' %}
-        {% if msg == True %}
-            {% include 'partials/_alert2.html' %}
-        {% endif %}
+  <body>
+      {% include 'partials/_forms.html' %}
+      {% if msg == True %}
+        {% include 'partials/_alert2.html' %}
+      {% endif %}
     </body>
 {% endblock %}
 

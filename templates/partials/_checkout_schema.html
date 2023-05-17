@@ -41,14 +41,26 @@
     cursor: pointer;
   }
 
-  /* Custom default button */
-.btn-secondary,
+
+.btn-secondary{
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-bottom: 0.2em;
+  padding-top: 0.2em;
+  border-radius: 10px;
+  background-color: #b8d6ff;
+  color: rgb(1, 43, 104);
+  text-shadow: none;
+  font-size: 0.8rem;
+}
+
 .btn-secondary:hover,
 .btn-secondary:focus {
-  background-color: #333;
-  color: aliceblue;
-  text-shadow: none; /* Prevent inheritance from `body` */
-  font-size: 0.7rem;
+  border-radius: 10px;
+  background-color: #008CBA;
+  color: white;;
+  text-shadow: none;
+  font-size: 0.8rem;
 }
 
 </style>
@@ -64,13 +76,10 @@
   }
 </script>
 
-<p class="p_schema"> Schemas: </p>
-
-<li>
-  <p class="schema">
-     {{ status_object.description }}
+  <div class="descricao_schema">  
+    Schemas: {{ status_object.description }}
     <button type="button" class="btn-secondary" onclick="abrirModal()"> Ver schema</button>
-  </p>
+  </div>  
 
   <!-- Mostra o schema -->
   <div id="myModal" class="modal">
@@ -80,8 +89,10 @@
       <pre> {{ status_object.schema.items }} </pre>
     </div>
   </div>
-</li>
 
-<input type="checkbox" id="count" name="ordem" value="schema:{{ status_object.description }}">
-  Validar contrato: {{ status_object.description }}
+  </br>
+  <div class="p_schema"> 
+    <input type="checkbox" id="count" name="ordem" value="schema:{{ status_object.description }}">
+    Validar contrato: {{ status_object.description }}
+  </div>
 

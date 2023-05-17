@@ -1,3 +1,44 @@
+<style>
+  .popup h2{
+    color: #0066CC;
+  }
+
+  .popup{
+    color: #000000;
+  }
+  
+  .button {
+    background-color: #0099FF; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+  
+  .button1 {
+    background-color: #0099FF; 
+    color: white; 
+    border: 2px solid #7db9df;
+    margin: 0p;
+  }
+
+
+  .btn:hover,
+  .btn-lg:hover, 
+  .button1:hover {
+    background-color: #003366;
+    color: white;
+  }
+
+</style>
+
+
 <div id="popup1" class="overlay">
     <div class="popup">
       <h2>Upload do Arquivo</h2>
@@ -6,9 +47,9 @@
         <form action="{% url 'index'%}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             </br>
-            <input id="customFile"  type="file" name="document" accept="*,.json, .yaml">
+            <input class="form-control form-control" id="customFile" type="file" name="document" accept="*,.json, .yaml">
             </br>
-            <button  id="btn" class="" value="Submit"  type="submit" >Gerar</button>
+            <button  id="btn" class="btn btn-lg button1" value="Submit"  type="submit" >Gerar</button>
         </form>
      </div>
    </div>

@@ -2,14 +2,10 @@
 
 {% if verb|length > 0 %}
 
-<li>
-  <p class="verbs">
-      <p class="descricao_verb"> <strong> Método:</strong> </p>
-      <strong> {{ verb.upper }} </strong>
-  </p>
-</li>
-
-<input class="form-check-reverse" type="checkbox" name="ordem" value="verbo:{{verb}}">
+  <p class="descricao_verb">  Método: {{ verb.upper }} </p>
+  
+  <div class="p_verbs"> 
+    <input class="form-check-reverse" type="checkbox" name="ordem" value="verbo:{{verb}}">
     Verbo: ["{{verb.upper}}"]
-
+  </div>
 {%endif%}

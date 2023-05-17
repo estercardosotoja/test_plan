@@ -1,9 +1,121 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<style>
+    .div_paths{
+        background-color: rgb(73, 78, 78);
+        margin-top: 25px;
+        margin-bottom: 25px;
+        padding: 25px;
+        border-radius: 2%;
+    }
 
-<div>
-    <h1> Manual de Uso </h1>
+    summary{
+        text-align: left;
+        font-style: inherit;
+        font-size: large;
+        margin-bottom: 15px;
+    }
+
+    .description{
+        text-align: left;
+    }
+
+    ul  { 
+        width:auto; 
+        margin:auto; 
+        float:left; 
+        display:block; 
+    }
+
+    li {
+        overflow:hidden; 
+        font-size:1em; 
+        text-align:left; 
+        margin-bottom: 10px;
+    }
+</style>
+
+<h1> Manual de Uso </h1>
+<div class="div_paths">
+    <section>
+        <details>
+            <summary> O que é Test Plan? </summary>
+            <p  class="description">
+                O Test Plan e trata-se de um protótipo de ferramenta para geração do Plano de Teste de API,
+                visando auxiliar os profissionais de qualidade na geração de plano de testes de API.  
+                O objetivo da ferramenta é auxiliar o usuário a gerar os testes de API seguindo a especificação e diminuir o
+                tempo investido na geração do plano de testes de API.
+            </p>
+        </details>
+        <details>
+            <summary> Requisitos para utilizar a ferramenta? E o que é arquivo de especificação?</summary>
+            <p class="description">
+                Para utlizar a ferramenta é necessário realizar upload de um arquivo de espcificação. Este arquivo também 
+                pode ser conhecido popularmente como Swagguer, mas se trata de um padrão estabelecido pela OpenAPI Specification (OAS) 
+                define uma descrição de interface padrão independente de linguagem de programação para APIs HTTP. 
+                A aplicação é compativel com as extensões .yaml e .json.
+            </p>
+        </details>
+        <details>
+            <summary> Como utilizar a ferramenta? </summary>
+            <p class="description">
+                Passo a passo para utilizar a ferramenta: 
+                <ul>
+                    <li> 1 - Necessário realizar upload de um arquivo de espcificação. Na Página Inicial teremos o botão 'Iniciar'. Ao clicar 
+                        nele será aberto um pop-up. Para selecionar o arquivo de especificação. Depois de ter escolhido o arquivo se especificação, 
+                        para gerar o plano de teste é só selecionar o button 'Gerar' para ser direcionado para a página de escolher os cenários.  
+                    </li>
+                    <li> 2 - Na página de escolher os cenários para a geração do plano de testes será listado todos os itens e as validações sugeridas 
+                        pelo Test Plan. Também será disponibilizada a opção de adicionar um comentário no plano de teste. Após a escolha de todos os cenários
+                        é só clicar em 'Gerar Plano' para ser direcionado para a página de confirmação. 
+                    </li>
+                    <li> 3 - Na página de confirmação será listados todos os cenários escolhidos pelo usuário. Desta forma é possivel validar todos os 
+                        componenetes da aplicação que foram selecinados para formar o plano de testes, para continuar é necessário clicar em 'Confirmar'
+                        para ser direcionado para a página de Download. 
+                    </li>
+                    <li> 4 - Na página de Download é disponibilida a opção de realizar o 'Download PDF', em que realizará o download do arquivo. 
+                    </li>
+                </ul>
+            </p>
+        </details>
+
+        <details>
+            <summary> Não consigo realizar o upload do arquivo: </summary>
+            <p class="description">
+                É realizado uma algumas validações para que seja só realizado o upload de arquivos que tenham a extensões .yaml e .json e que
+                sejam conforme o padrão estabelecido pela OpenAPI Specification (OAS). Alguns possiveis motivos para estarem ocorrendo estes 
+                problemas de upload: 
+                    <section>
+                        <details><summary> Extensão não compativel? </summary>
+                            <p> Verifique a extesão do arquivo que deseja realizar upload. </p>
+                        </details>
+                        <details><summary> Atenção! Selecione um arquivo para realizar o upload! </summary>
+                            <p> Selecione um arquivo para realizar o upload, provavelmente  não tem nenhum arquivo para realizado o upload.</p>
+                        </details>
+                        <details><summary> Atenção! Revise o arquivo, sintaxe errada! </summary>
+                            <p> O arquivo selecionado possui algum erro de sintaxe.</p>
+                        </details>
+                        <details><summary> Atenção! Selecione um arquivo de especificação conforme a OPEN API para realizar o upload! </summary>
+                            <p> O arquivo selecionado apesar de ser um arquivo de extensão .json ou .yaml não segue o padrão da especificalçao 
+                                da OPEN API, verifique e tente novamente com arquivo conforme as especificação da Open Api.</p>
+                        </details>
+                    </section>
+            </p>
+        </details>
+        <details>
+            <summary> Quais campos são contemplados pela ferramenta atualmente? </summary>
+            <p class="description">
+                - Pahts: os endpoints das aplicações.
+                    </br>
+                - Verbs: Os verbos dos paths.
+                    </br>  
+                - Campos obrigatórios e opcionais.
+                    </br>                  
+                - Os schemas dos paths. 
+            </p>
+        </details>
+    </section>
 </div>
 
 {% endblock %}

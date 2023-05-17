@@ -2,8 +2,98 @@
 {% load static %}
 {% block content %}
 
-<div>
-    <h1> Contato </h1>
+<style>
+    .div_paths{
+        background-color: rgb(73, 78, 78);
+        margin-top: 25px;
+        margin-bottom: 25px;
+        padding: 25px;
+        border-radius: 2%;
+    }
+
+    .sub_titulo {
+        text-align: left;
+        text-decoration: underline;
+        font-weight: bold;
+    }
+
+    .text_objetivo  {
+        text-align: left;        
+    }
+
+    .btn_social { 
+        width:100%; 
+        float:left;  
+        margin:auto; 
+    }
+
+    .btn_social ul  { 
+        width:auto; 
+        margin:auto; 
+        float:left; 
+        display:block; 
+    }
+
+    .btn_social ul li  { 
+        overflow:hidden; 
+        font-size:1em; 
+        text-align:left; 
+    }
+
+    .btn_social ul li a  { 
+        display:block; 
+        text-decoration:none; 
+        color:#fff; 
+        transition:.4s;
+    }
+
+    .texto-italico {
+        font-style: italic;
+      }
+
+</style>
+
+<h1> Contato </h1>
+<div class="div_paths">
+    <h5 class="sub_titulo"> Objetivo: </h5>
+    <p class="text_objetivo">
+            </br>
+            Este é o meu Projeto Tecnológico que tem por objetivo a Conclusão do Curso de Ciência da Computação da Ulbra - 
+        Campus Gravataí. Estou sendo orientada pela professora <strong> Maria Adelina Raupp Sganzerla</strong> (maria.sganzerla@ulbra.br).
+            </br>
+            </br>
+            O projeto em questão chama-se Test Plan e trata-se de um protótipo de ferramenta para geração do Plano de Teste de API 
+        (desenvolvido em forma de site), visando auxiliar os profissionais de qualidade na geração de plano de testes de API.  
+            </br>
+            </br> 
+            O objetivo da ferramenta é auxiliar o usuário a gerar os testes de API seguindo a especificação e diminuir o
+         tempo investido na geração do plano de testes de API.
+            </br>
+            </br>
+        Para você me ajudar com o projeto você pode respondendo o questionário validação com suas percepções com a ferramenta.
+            </br>
+            </br>
+        <strong> Lembrando! O questionário é totalmente anônimo.  </strong>            
+            </br>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdwGrDx84DiYXJujNhK6QffmFYZvGS2Huo4plTxZAMugmtF8w/viewform?usp=sf_link" target="_blank" title="Formulário de Validação">
+        <p class="texto-italico"> Formulário de Validação </p></a>
+    </p>
+    <h5 class="sub_titulo"> Redes Sociais: </h5>
+    <p class="text_objetivo">
+        Em caso de dúvida, pode entrar em contato:
+        <nav class="btn_social">
+            <ul>
+                <li> 
+                    Email:  <p class="texto-italico">ester.toja@rede.ulbra.br</p>
+                </li>
+                <li>                  
+                    <a href="https://www.linkedin.com/in/ester-toja-692a6566/" target="_blank" title="linkdin">
+                        Linkedin:  <p class="texto-italico"> Ester Toja </p>
+                    </a> 
+                </li>      
+            </ul>
+        </nav>
+    </p>
 </div>
 
 {% endblock %}
