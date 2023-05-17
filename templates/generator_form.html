@@ -3,104 +3,6 @@
 {% block content %}
 
 <style>
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .descricao_path {
-        text-align: left;
-        font-size: xx-large;
-        font-size: 1.5rem;
-        color:  #02bcb9cb;
-        display: inline;
-
-    }
-
-    .descricao_verb {
-        text-align: left;
-        font-size: larger;
-        font-size: 1.2rem;
-        color:  #02bcb9cb;
-        display: inline;
-    }
-
-    .descricao_status {
-        text-align: left;
-        font-size: larger;
-        font-size: 1.2rem;
-        color:  #02bcb9cb;
-        display: inline;
-        margin-left: -18rem;
-    }
-
-    .paths_text {
-        text-align: left;
-        font-size: 1.4rem;
-        color:  #ffffff;
-
-    }
-
-    .verbs{
-        text-align: left;
-        font-size: 1rem;
-        font-size: larger;
-        margin-left: -400px;
-        color:  #02bcb9cb;
-        display: inline;
-    }
-
-    .p_cmps{
-        display: inline;
-        margin-top: 3px;
-        margin-bottom: 5px;
-        margin-left: -230px;
-        color:  #02bcb9cb;
-        display: inline;
-    }
-
-    .p_status{
-        display: inline;
-        margin-top: 3px;
-        margin-bottom: 5px;
-        color:  #02bcb9cb;
-    }
-
-    .p_schema{
-        display: inline;
-        margin-top: 3px;
-        margin-bottom: 5px;
-        margin-left: -250px;
-        color:  #02bcb9cb;
-    }
-
-    .cps_obg {
-        text-align: left;
-        margin-left: -90px;
-        display: inline
-    }
-
-     .status{
-        text-align: left;
-        margin-left: 0px;
-        display: inline
-    }
-
-    .schema{
-        text-align: left;
-        margin-left: -110px;
-        display: inline
-    }
-
-    .div_paths{
-        background-color: rgb(73, 78, 78);
-        margin-top: 25px;
-        margin-bottom: 25px;
-        padding: 25px;
-        border-radius: 2%;
-    }
-
     .infos{
         text-align: center;
         text-decoration: solid;
@@ -115,27 +17,167 @@
     .h1{
         margin-top: 50px;
         text-align: center;
-        color: #8efaf8;
+        color: #0066CC;
     }
 
     .span{
         text-align: left;
         margin-left: -160px;
     }
-
-    .btn-info{
-        margin-bottom: 30px;
-        margin-top: 30px;
-    }
-
+    
     .text_area{
         margin-top: 5px;
         margin-bottom: 30px;
     }
+    
+    .div_paths{
+        background-color: rgb(73, 78, 78);
+        margin-top: 15px;
+        margin-bottom: 25px;
+        padding: 25px;
+        border-radius: 2%;
+        text-align:left ;
+    }
 
+    .descricao_path {
+        font-size:1.6em; 
+        text-align:left; 
+        color: #5e9cf4;
+        display: inline;
+        font-weight: bolder ;
+    }
+
+    .descricao_verb {
+        display: inline;
+        margin-left: 1em;
+        font-size: 1.2em;
+        font-weight: bolder;
+        color: #6da7f7;
+    }
+
+    .descricao_campos {
+        display: inline;
+        margin-left: 3em;
+        font-size: 1.1em;
+        font-weight: bolder;
+        color: #87b5f6;
+    }
+
+    .descricao_status {
+        display: inline;
+        margin-left: 3em;
+        font-size: 1.1em;
+        font-weight: bolder;
+        color: #87b5f6;
+    }
+
+    
+    .descricao_schema {
+        display: inline;
+        margin-left: 5em;
+        font-size: 1.1em;
+        font-weight: bolder;
+        color: #87b5f6;
+    }
+
+    .p_paths{
+        margin-left: 1em;
+        margin-bottom: 1em;
+
+    }
+
+    .p_verbs{
+        margin-left: 2em;
+        margin-bottom: 1em;
+    }
+
+    .p_cmp{
+        margin-left: 4em;
+        margin-bottom: 1em;
+    }
+
+    .p_status{
+        margin-left:4em;
+        margin-bottom: 1em;
+    }
+
+    .p_schema{
+        margin-left: 6em;
+        margin-bottom: 1em;
+    }
+
+    .form-control{
+        margin-top: 1.5em;
+        width: 100%;
+    }
+
+    .observacao{
+        padding-left: 1em;
+        padding-right: 1em;
+        padding-bottom: 0.5em;
+        padding-top: 0.5em;
+        border-radius: 2em;
+    }
+
+
+    .btn {
+        margin: 0px;
+        padding: 6px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+    }
+
+    .button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+      }
+      
+    .button2 {
+        background-color: rgb(159, 207, 248); 
+        color: #343a40; 
+        font-weight: 600;
+        border: 2px solid #008CBA;
+        border-radius: 2em;
+      }
+      
+      .button2:hover, .btn2:focus{
+        background-color: #008CBA;
+        color: white;
+      }
+
+    .button3{
+        background-color: #0099FF;
+        color: #343a40; 
+        font-weight: 600;
+        border: 2px solid #008CBA;
+        border-radius: 2em;
+    }
+    
+    .button3:hover, .button3:focus{
+        background-color: #0099FF;
+        color: white;
+      }
+
+    .util{
+        padding-left: 1em;
+        padding-right: 1em;
+        padding-bottom: 0.2em;
+        padding-top: 0.2em;
+    }
 </style>
 
-<!-- Observações TextArea -->
+<!-- Observações Text Area -->
 <script>
     function mostrarTextArea() {
     var divTextArea = document.getElementById("divTextArea");
@@ -172,17 +214,16 @@
 
             {% with seq=0 %}
             <div id="count" >
-                <button type="button" onclick="checkAll()">Selecionar Todos</button>
-                <button type="button" onclick="limpacheckAll()">Limpar Todos</button>
+                <div> 
+                    <button class="button2 util" type="button" onclick="checkAll()">Selecionar Todos</button>
+                    <button class="button2 util" type="button" onclick="limpacheckAll()">Limpar Todos</button>
+                </div>
                 <!-- Paths -->
-                <ul>
                     {% for path, path_object in paths.items %}
                     <div class="div_paths">
                     {% with seq|add:1 as seq %}
-                        <li>
                             {% include 'partials/_checkout_path.html' with path=path %}
                             <!-- Verbs -->
-                            <ul>
                                 {% for verb, verb_object in path_object.items %}
                                     {% with seq|add:1 as seq %}
                                         {% include 'partials/_checkout_verbs.html' with verb=verb cor=cor %}
@@ -208,28 +249,23 @@
                                         {% endwith %}
                                     {% endwith %}
                                 {% endfor %}
-                            </ul>                    
-                        </li>
                     {% endwith %}
                     </div>
                     {% endfor %}
-                
-                </ul>
+            
             </div>
             {% endwith %}
             
-            <button class="btn-info" type="button" onclick="mostrarTextArea()"> Adicionar bservações </button>
-            
-            <div class="text_area"  id="divTextArea" style="display:none;">
+            <button class="button2 observacao" type="button" onclick="mostrarTextArea()"> Adicionar Observações</button>
+            <br>
+            <div class=""  id="divTextArea" style="display:none;">
                 {% include 'partials/_checkout_text_area.html' %}
             </div>    
-
+            <br>
             <div>
-                <button  class="btn-primary" type="submit" value="Gerador!"> Gerar Plano </button>
+                <button  class="button3 observacao" type="submit" value="Gerador!"> Gerar Plano </button>
             </div>
-
         </form>
-
     </div>
     
 {% endblock %}

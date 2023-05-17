@@ -91,6 +91,7 @@ def index(request):
 
                 # valida se o arquivo é uma especificação da Open API
                 ehspec = valida_existencia_path(result)
+
                 if ehspec == 0:
                     context = alert('Selecione um arquivo de especificação conforme a OPEN API para realizar o upload!')
                     return render(request, "index.html", context)
@@ -155,7 +156,7 @@ def generator(request, context):
 
 
 def confirm(request):
-    try:
+    #try:
         if request.method == 'POST':
             if 'download' in request.POST:
                 return render(request, '../templates/dynamic/download.html')
@@ -170,9 +171,9 @@ def confirm(request):
         else:
             context = alert('Algo de errado aconteceu! Recebemos outro metódo HTTP - POST')
             return render(request, '../templates/index.html', context)
-    except TypeError:
-        context = alert('Erro ao intepretar as tags do arquivo! Tente novamente')
-        return render(request, '../templates/index.html', context)
+    #except TypeError:
+     #   context = alert('Erro ao intepretar as tags do arquivo! Tente novamente')
+      #  return render(request, '../templates/index.html', context)
 
 
 """
@@ -203,13 +204,13 @@ def separa_string_descricao(string, num):
 
 
 def montar_dict_confirm(elemento, num):
-  try:
-    key = separa_string_elemento(elemento)
-    value = separa_string_descricao(elemento, num)
-    dado = {value: key}
-    return dado
-  except IndexError:
-    return {'oservacao' : elemento}
+    try:
+        key = separa_string_elemento(elemento)
+        value = separa_string_descricao(elemento, num)
+        dado = {value: key}
+        return dado
+    except IndexError:
+        return {'observacao': elemento}
 
 
 """
@@ -217,14 +218,14 @@ def montar_dict_confirm(elemento, num):
 """
 
 
-def exibir_dados(ORDEM):
-  testes = { }
-  num = 0
-  for elemento in ORDEM:
-    num = num + 1
-    dado = montar_dict_confirm(elemento, num)
-    testes.update(dado)
-  return testes
+def exibir_dados(ordem):
+    testes = { }
+    num = 0
+    for elemento in ordem:
+        num = num + 1
+        dado = montar_dict_confirm(elemento, num)
+        testes.update(dado)
+    return testes
 
 
 """
@@ -243,9 +244,8 @@ def download(request):
                 context = {
                     'dados': get_ordem_imprimir()
                 }
-                #print(get_ordem_imprimir())
-                #spec_separada = paths_verbs_cmp(get_infos_file_spec())
-                GeneratorPDF.Gerar(get_infos_file_spec())
+                print(get_ordem_imprimir())
+                GeneratorPDF.Gerar(get_infos_file_spec(), get_ordem_imprimir())
                 return render(request, '../templates/download.html', context=context)
         else:
             return render(request, '../templates/index.html',
@@ -376,14 +376,31 @@ def infos_spec(spec):
     title_api = Extract.get_title(spec['spec'])
     version_api = Extract.get_version(spec['spec'])
     host = Extract.get_base_url(spec['spec'])
-    context = {
-        'name': spec['name'],
-        'spec': spec['spec'],
-        'paths': html_entrada,
-        'title': title_api,
-        'version': version_api,
-        'host_base_path': host
-    }
+
+    # Valida se há authorization: ''''''''''''''''''''''''''Problema aqui!!!
+    auth = Extract.valid_autorization(spec['spec'])
+
+    print(spec)
+
+    if auth == 0:
+        context = {
+            'name': spec['name'],
+            'spec': spec['spec'],
+            'paths': html_entrada,
+            'title': title_api,
+            'version': version_api,
+            'host_base_path': host
+        }
+    else:
+        context = {
+            'name': spec['name'],
+            'spec': spec['spec'],
+            'paths': html_entrada,
+            'title': title_api,
+            'version': version_api,
+            'host_base_path': host,
+            'auth': auth
+        }
     return context
 
 

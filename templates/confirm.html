@@ -2,9 +2,9 @@
 {% block content %}
 
 <style>
-
   .h1{   
     margin-top: 50px;   
+    color: #0066CC;
   }
   
   .div_paths{
@@ -13,6 +13,7 @@
     margin-bottom: 25px;
     padding: 25px;   
     border-radius: 2%;
+    text-align: left;
   }
 
   ul {
@@ -22,54 +23,129 @@
   }
 
   .descricao_path {
-    color:  #ffffff;
-    font-weight: bold;
-    font-size: 1.2rem;
-    display: inline;
-    text-align: left;
-    margin-left: -160px;
+    font-size:1.6em; 
+    text-align:left; 
+    color: #b9d4fa;
+    display: block;
+    font-weight: bolder ;
   }
 
   .descricao_verb {
-    color:  #ffffff;
-    font-weight: bolder;
-    font-size: 1rem;
-    display: inline;
-    text-align: left;
-    margin-left: -130px;
+      display: block;
+      margin-left: 1em;
+      font-size: 1.2em;
+      font-weight: bolder;
+      color: #6da7f7;
   }
 
-  .p_cmps{
-    color: #ffffff;
-    text-align: left;
-    margin-left: -100px;
+  .descricao_campos {
+      display: block;
+      margin-left: 3em;
+      font-size: 1.1em;
+      font-weight: bolder;
+      color: #87b5f6;
+  }
+
+  .descricao_status {
+      display: block;
+      margin-left: 3em;
+      font-size: 1.1em;
+      font-weight: bolder;
+      color: #87b5f6;
+  }
+
+
+  .descricao_schema {
+      display: block;
+      margin-left: 5em;
+      font-size: 1.1em;
+      font-weight: bolder;
+      color: #87b5f6;
+  }
+
+  .obervacao{
+    display: block;
+    margin-left: 5em;
+    font-size: 1.1em;
     font-weight: bolder;
+    color: #87b5f6;
+
+  }
+
+  .p_paths{
+      margin-left: 1em;
+  }
+
+  .p_verbs{
+      margin-left: 1em;
+      margin-bottom: 1em;
+  }
+
+  .p_cmp{
+      margin-left: 4em;
   }
 
   .p_status{
-    display: inline;
-    color:  #ffffff;
-    text-align: left;
-    margin-left: -100px;
-    font-weight: bolder;
+      margin-left:4em;
   }
 
   .p_schema{
-      display: inline;
-      color:  #ffffff;
-      text-align: left;
-      margin-left: -100px;
-      font-weight: bolder;
+      margin-left: 6em;
+  }
+
+  .btn {
+    margin: 0px;
+    padding: 6px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+  }
+
+  .button {
+      background-color: #4CAF50; /* Green */
+      border: none;
+      color: white;
+      padding: 16px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+
+    }
+      
+  .button2 {
+      background-color: rgb(159, 207, 248); 
+      color: #343a40; 
+      font-weight: 600;
+      border: 2px solid #008CBA;
+      border-radius: 2em;
+      padding: 6px 12px;
+     
+    }
+  
+  .button2:hover, .btn2:focus{
+    background-color: #008CBA;
+    color: white;
+    padding: 6px 12px; 
+
   }
 </style>
 
 <script> 
   var elemento1; 
   var elemento2; 
-  const lista = document.querySelector("#lista");
-</script>
+  var count_paths = 0;
+  var count_verb = 0;
+  var count_status = 0;
+  var count_schema= 0;
+  var count_cmp = 0;
 
-<script>
+  const lista = document.querySelector("#lista");
+
   function valida_inicio_string(string, text) {
     if (string.startsWith(text)) {
       return true;
@@ -77,42 +153,136 @@
       return false;
     }
   }
-</script>
 
-
-<script>
   function retira_numero(string) {
     let texto = string;
     let dado = texto.split('-')[0].trim();
     return dado;
   }
-</script>
 
-<script>
-  function adicionarItemLista(texto) {
-    var novoItem = document.createElement("li");
-    novoItem.innerHTML = texto;
+  function adiciona_titulo(tipo, css) {
+    var novoItem = document.createElement("label");
+    novoItem.classList.add(css);
+    novoItem.innerHTML = tipo;
     var lista = document.getElementById("lista");
-    lista.appendChild(novoItem);
+    lista.appendChild(novoItem); 
   }
+
+  function adiciona_item_conforme_sua_classificacao(elemento0, elemento2, css) {
+    var novoItem = document.createElement("li");
+    novoItem.classList.add(css);
+    novoItem.innerHTML = elemento0 + ' : [' + elemento2 + ']';
+    var lista = document.getElementById("lista");
+    lista.appendChild(novoItem); 
+  }
+
+  function adiciona_observacao(elemento2, css) {
+    var novoItem = document.createElement("li");
+    novoItem.classList.add(css);
+    novoItem.innerHTML =  elemento2;
+    var lista = document.getElementById("lista");
+    lista.appendChild(novoItem); 
+  }
+
+  function adicionarItemLista(elemento2, elemento0) {
+
+    
+    if (elemento0.startsWith("Requesicao")){
+      if (count_paths < 1){
+        adiciona_titulo("Endpoint: ", "descricao_path");
+        count_verb = 0;
+        count_status = 0;
+        count_schema= 0;
+        count_cmp = 0;
+      } 
+      
+      adiciona_item_conforme_sua_classificacao(elemento0, elemento2, "p_paths")
+      count_paths = count_paths + 1;
+      return 
+
+    } else if (elemento0.startsWith("verbo")){
+      if (count_verb < 1){
+        adiciona_titulo("Metódo: ", "descricao_verb");
+        count_paths = 0;
+        count_status = 0;
+        count_schema= 0;
+        count_cmp = 0;
+      }
+
+      adiciona_item_conforme_sua_classificacao(elemento0,elemento2.toUpperCase(), "p_verbs");
+      count_verb = count_verb + 1;
+      return 
+
+    } else if (elemento0.startsWith("Parameter")){
+      if (count_cmp < 1){
+        adiciona_titulo("Parameter: ", "descricao_campos");
+        count_paths = 0;
+        count_verb = 0;
+        count_status = 0;
+        count_schema= 0;
+      } 
+
+      adiciona_item_conforme_sua_classificacao(elemento0,elemento2, "p_cmp");
+      count_cmp = count_cmp + 1;
+      return 
+
+    }  else if (elemento0.startsWith("status")){
+      if (count_status < 1){
+        adiciona_titulo("Status Code: ", "descricao_campos");
+        count_paths = 0;
+        count_verb = 0;
+        count_cmp = 0;
+        count_schema= 0;
+      } 
+
+      adiciona_item_conforme_sua_classificacao(elemento0,elemento2, "p_status");
+      count_status = count_status + 1;
+      return 
+
+    } else if (elemento0.startsWith("schema")){
+      if (count_schema < 1){
+        adiciona_titulo("Schema: ", "descricao_schema");
+        count_paths = 0;
+        count_verb = 0;
+        count_cmp = 0;
+        count_status= 0;
+      } 
+
+      adiciona_item_conforme_sua_classificacao(elemento0,elemento2, "p_schema");
+      count_schema = count_schema + 1;
+      return 
+
+    } else if (elemento0.startsWith("observacao")){
+
+      adiciona_titulo("OBSERVAÇÃO: ", "obervacao");
+      adiciona_observacao(elemento2, "obervacao");
+      return 
+
+    } else { 
+      adiciona_item_conforme_sua_classificacao(elemento2, "schema")
+      return 
+    }
+  }
+
 </script>
 
   <h1 class="h1"> Resumo </h1>
 
   <form method="post" action="{% url 'download' %}"  enctype="application/x-www-form-urlencoded">
-     {% csrf_token %}
+    {% csrf_token %}
      
     <div class="div_paths"> 
       <ul id="lista" class="list-group-horizontal-lg">
         {% for elemento in ordem_para_imprimir.items %}
           <script> 
+
             elemento1 = "{{ elemento.0 }}";
             elemento2 = "{{ elemento.1 }}";
-
             elemento0 = retira_numero(elemento1)
-            var novoItem = elemento0 + elemento2 
+            adicionarItemLista(elemento2, elemento0);
+            console.log('0' + elemento0)
+            console.log('2' + elemento2)
             
-            adicionarItemLista(novoItem);
           </script>
 
         {% endfor %}
@@ -127,7 +297,7 @@
 
 
     <div class="form_confirmar">
-      <button  id="btn-light" class="btn-light" value="download"  type="submit"> Confirma </button>
+      <button class="button2" id="btn-light" value="download"  type="submit"> Confirma </button>
     </div>
 
   </form>

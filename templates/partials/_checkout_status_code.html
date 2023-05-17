@@ -1,11 +1,11 @@
 {% load static %}
 
 {% if status|length > 0 %}
-  <li>
-    <p class="descricao_status">
-      <p class="p_status"> Status Code: </p>
-      <p class="status"> {{ status }} </p>
-    </p>
-  </li>
- <input type="checkbox" id="count" name="ordem" value="status code:{{ status }}"> Validar o status code: [{{status}}]
+
+    <div class="descricao_status"> Status Code: {{ status }} </div>
+    <br> 
+    <div class="p_status">
+      <input type="checkbox" id="count" name="ordem" value="status code:{{ status }}">
+      Validar o status code: [{{status}}]
+    </div>
 {% endif %}

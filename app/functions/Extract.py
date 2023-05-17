@@ -59,3 +59,40 @@ class Extract:
         except KeyError:
             return 'Não informado na especificação'
 
+    """
+        Verifica se há authorização na especficação 
+    """
+    def valid_autorization(self):
+        try:
+            context = { }
+            if self['securityDefinitions']:
+                autorizations = self['securityDefinitions']
+
+                for auth, object_auth in autorizations.items():
+                    self.valida_tipo_autorization(object_auth['type'])
+
+                context = {
+                    'name_auth': self['securityDefinitions'],
+                    'type': 'aqui vai o o type do auth'
+                }
+                print(f'-------------------------------------------> Tem auth: {context}')
+                return context
+            else:
+                print(f'Não tem auth')
+                return 0
+        except KeyError:
+            return 'Não informado na especificação'
+
+    '''
+        Tipo de autorization
+    '''
+    def valida_tipo_autorization(string):
+        if string == 'apiKey':
+            print('Autorization = apiKey')
+        elif string == 'basic':
+            print('Autorization: basic')
+        elif string == 'oauth2':
+            print('Autorization: oauth2')
+        else:
+            print('Outro autorization')
+

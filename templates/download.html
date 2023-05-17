@@ -1,22 +1,59 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div>
-    <h3>  Plano de Testes </h3>
-</div>
-<div>
-      <form method="post" action="{% url 'downloaded' %}" enctype="application/x-www-form-urlencoded">
-        {% csrf_token %}
-          <button id="btnDownload" class="btn-light" value="downloaded" type="submit" onclick="downloadPDF()">
-            Download PDF
-          </button>
-      </form> 
 
-    <div>
-      {% if msg == True %}
-        {% include 'partials/_alert2.html' %}
-      {% endif %}
-    </div>
+<style>
+  .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+    
+.button2 {
+    background-color: rgb(159, 207, 248); 
+    color: #343a40; 
+    font-weight: 600;
+    border: 2px solid #008CBA;
+    border-radius: 2em;
+    padding: 6px 12px;
+  }
+
+.button2:hover, .btn2:focus{
+  background-color: #008CBA;
+  color: white;
+  padding: 6px 12px;
+}
+  .sub_title {
+    color: #0066CC ;
+}
+
+</style>
+
+<div>
+  <div> 
+      <h3 class="sub_title">  Esta Pronto! </h3>
+      <p class="lead">Seu Plano de Testes de API está pronto, só realizar o download! </p>
+  </div>
+  <form method="post" action="{% url 'downloaded' %}" enctype="application/x-www-form-urlencoded">
+    {% csrf_token %}
+     <button class="button2" id="btnDownload" value="downloaded" type="submit" onclick="downloadPDF()">
+      Download PDF
+     </button>
+  </form> 
+  
+  <div>
+    {% if msg == True %}
+      {% include 'partials/_alert2.html' %}
+    {% endif %}
+  </div>
 
 </div>
 
