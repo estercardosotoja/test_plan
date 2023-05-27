@@ -28,7 +28,7 @@ class Extract:
         try:
             return self["info"]["title"]
         except KeyError:
-            return print('Não há titulo')
+            return print('Log: Não há titulo')
 
     '''
         Retorna a versão da especificação.
@@ -75,10 +75,9 @@ class Extract:
                     'name_auth': self['securityDefinitions'],
                     'type': 'aqui vai o o type do auth'
                 }
-                print(f'-------------------------------------------> Tem auth: {context}')
                 return context
             else:
-                print(f'Não tem auth')
+                print(f'Log:  Não tem auth')
                 return 0
         except KeyError:
             return 'Não informado na especificação'

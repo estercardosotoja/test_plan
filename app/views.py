@@ -19,17 +19,25 @@ from static.js import *
 
 infos_file_spec = None
 ordem_imprimir = None
+quant_itens = None
+
+"""
+    Para retornar a quantidade de itens selecionados pelos usuários
+"""
+
+
+def get_quant_itens():
+    return quant_itens
 
 
 """
-    Para adicionar ou alterar a variavel que 
-    possui a especificação.
+    Para adicionar ou alterar quantidade de itens selecionados pelos usuários
 """
 
 
-def set_infos_file_spec(value):
-    global infos_file_spec
-    infos_file_spec = value
+def set_quant_itens(value):
+    global quant_itens
+    quant_itens = value
 
 
 """
@@ -44,13 +52,13 @@ def get_infos_file_spec():
 
 """
     Para adicionar ou alterar a variavel que 
-    possui a ordem que os dados foram selecionados.
+    possui a especificação.
 """
 
 
-def set_ordem_imprimir(value):
-    global ordem_imprimir
-    ordem_imprimir = value
+def set_infos_file_spec(value):
+    global infos_file_spec
+    infos_file_spec = value
 
 
 """
@@ -64,6 +72,17 @@ def get_ordem_imprimir():
 
 
 """
+    Para adicionar ou alterar a variavel que 
+    possui a ordem que os dados foram selecionados.
+"""
+
+
+def set_ordem_imprimir(value):
+    global ordem_imprimir
+    ordem_imprimir = value
+
+
+"""
     Verifica se há um post sendo enviado e verifica se há uma arquivo nas requisições.
     Valida se o arquivo é um json e a sintaxe é conforme a OpenApi e retorna o nome do arquivo e 
     os dados da especificação, chamando a url "generator_form.html". 
@@ -71,7 +90,6 @@ def get_ordem_imprimir():
 
 
 def index(request):
-
     context = {}
     try:
         # Valida que há um envio do formulário do arquivo
@@ -116,7 +134,6 @@ def index(request):
         return render(request, "index.html", context)
 
 
-
 """
     Valida se há paths no arquivo para confirmar que é uma especificicação.
 """
@@ -140,7 +157,11 @@ def valida_existencia_path(spec):
 
 def generator(request, context):
     try:
-        return render(request, "generator_form.html", context)
+        if 'gerador' in request.POST and request.POST.getlist('ordem'):
+            context = alert('É necessário selecionar as validaçõe para continuar! Tente novamente')
+            return render(request, '../templates/dynamic/index.html', context)
+        else:
+            return render(request, "generator_form.html", context)
     except TypeError:
         context = alert('Arquivo de extensão Inválida!')
         return render(request, "index.html", context)
@@ -156,24 +177,56 @@ def generator(request, context):
 
 
 def confirm(request):
-    #try:
+    try:
         if request.method == 'POST':
             if 'download' in request.POST:
                 return render(request, '../templates/dynamic/download.html')
             else:
                 ordem_request = request.POST.getlist('ordem')
+                if len(ordem_request) == 1:
+                    context = alert('É necessário escolher no minimo um elemento para compor o plano de testes!')
+                    return render(request, '../templates/index.html', context)
+
                 exibir_path = exibir_dados(ordem_request)
+
+                set_quant_itens(quantidade_itens_selecionados_funcao(exibir_path))
+
+                if len(exibir_path['observacao']) == 0:
+                    exibir_path.pop('observacao')
+
                 context = {
                     'ordem_para_imprimir': exibir_path
                 }
                 set_ordem_imprimir(exibir_path)
+
                 return render(request, '../templates/confirm.html', context)
         else:
             context = alert('Algo de errado aconteceu! Recebemos outro metódo HTTP - POST')
             return render(request, '../templates/index.html', context)
-    #except TypeError:
-     #   context = alert('Erro ao intepretar as tags do arquivo! Tente novamente')
-      #  return render(request, '../templates/index.html', context)
+    except TypeError:
+        context = alert('Erro ao intepretar as tags do arquivo! Tente novamente')
+        return render(request, '../templates/index.html', context)
+
+
+"""
+    Quantidade de Itens selecionados para serem testados
+"""
+
+
+def quantidade_itens_selecionados_funcao(exibir_path):
+    ant_elemento = ' '
+    num = 0
+    lista = []
+    for elemento, dado in exibir_path.items():
+        if elemento == "observacao":
+            continue
+        elif dado != ant_elemento:
+            num = num + 1
+            ant_elemento = dado
+            lista.append(ant_elemento)
+        else:
+            continue
+    return len(lista)
 
 
 """
@@ -219,7 +272,7 @@ def montar_dict_confirm(elemento, num):
 
 
 def exibir_dados(ordem):
-    testes = { }
+    testes = {}
     num = 0
     for elemento in ordem:
         num = num + 1
@@ -244,8 +297,7 @@ def download(request):
                 context = {
                     'dados': get_ordem_imprimir()
                 }
-                print(get_ordem_imprimir())
-                GeneratorPDF.Gerar(get_infos_file_spec(), get_ordem_imprimir())
+                GeneratorPDF.Gerar(get_infos_file_spec(), get_ordem_imprimir(), get_quant_itens())
                 return render(request, '../templates/download.html', context=context)
         else:
             return render(request, '../templates/index.html',
@@ -265,7 +317,6 @@ def paths_verbs_cmp(spec):
     dados_gerais = infos_spec(spec)
     separados_geral = dados_gerais['paths']
     separado_paths = dados_separados(separados_geral)
-
     return separado_paths
 
 
@@ -289,19 +340,15 @@ def dados_separados(paths):
         for verb, verb_object in path_object.items():
             all_verbs.append(verb)
             if not isinstance(verb_object, dict):
-                #print(f"Esperava um objeto do tipo 'dict' para o verbo {verb}, mas recebeu {type(verb_object)}")
                 continue
             parameters = verb_object.get('parameters')
             if not isinstance(parameters, (list, tuple)):
-                #print(f"Esperava uma lista ou tupla de parâmetros para o verbo {verb}, mas recebeu {type(parameters)}")
                 continue
             for parameter in parameters:
                 all_cmp.append(parameter['name'])
                 if parameter.get('required'):
-                   # print('Campo obrigatório: ', parameter['name'])
                     continue
                 else:
-                    # print('Campo opcional: ', parameter['name'])
                     continue
 
             for status, status_object in verb_object['responses'].items():
@@ -380,8 +427,6 @@ def infos_spec(spec):
     # Valida se há authorization: ''''''''''''''''''''''''''Problema aqui!!!
     auth = Extract.valid_autorization(spec['spec'])
 
-    print(spec)
-
     if auth == 0:
         context = {
             'name': spec['name'],
@@ -402,5 +447,3 @@ def infos_spec(spec):
             'auth': auth
         }
     return context
-
-

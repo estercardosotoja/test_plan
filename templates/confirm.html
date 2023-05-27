@@ -4,7 +4,7 @@
 <style>
   .h1{   
     margin-top: 50px;   
-    color: #0066CC;
+    color: #86c2ff;
   }
   
   .div_paths{
@@ -12,7 +12,7 @@
     margin-top: 25px;
     margin-bottom: 25px;
     padding: 25px;   
-    border-radius: 2%;
+    border-radius: 2em;
     text-align: left;
   }
 
@@ -39,7 +39,7 @@
   }
 
   .descricao_campos {
-      display: block;
+      display: inline;
       margin-left: 3em;
       font-size: 1.1em;
       font-weight: bolder;
@@ -200,7 +200,7 @@
       count_paths = count_paths + 1;
       return 
 
-    } else if (elemento0.startsWith("verbo")){
+    } else if (elemento0.startsWith("Metodo")){
       if (count_verb < 1){
         adiciona_titulo("Metódo: ", "descricao_verb");
         count_paths = 0;
@@ -213,7 +213,7 @@
       count_verb = count_verb + 1;
       return 
 
-    } else if (elemento0.startsWith("Parameter")){
+    } else if (elemento0.startsWith("Parametro")){
       if (count_cmp < 1){
         adiciona_titulo("Parameter: ", "descricao_campos");
         count_paths = 0;
@@ -226,7 +226,7 @@
       count_cmp = count_cmp + 1;
       return 
 
-    }  else if (elemento0.startsWith("status")){
+    }  else if (elemento0.startsWith("Status")){
       if (count_status < 1){
         adiciona_titulo("Status Code: ", "descricao_campos");
         count_paths = 0;
@@ -239,7 +239,7 @@
       count_status = count_status + 1;
       return 
 
-    } else if (elemento0.startsWith("schema")){
+    } else if (elemento0.startsWith("Schema")){
       if (count_schema < 1){
         adiciona_titulo("Schema: ", "descricao_schema");
         count_paths = 0;
@@ -275,16 +275,11 @@
       <ul id="lista" class="list-group-horizontal-lg">
         {% for elemento in ordem_para_imprimir.items %}
           <script> 
-
             elemento1 = "{{ elemento.0 }}";
             elemento2 = "{{ elemento.1 }}";
             elemento0 = retira_numero(elemento1)
             adicionarItemLista(elemento2, elemento0);
-            console.log('0' + elemento0)
-            console.log('2' + elemento2)
-            
           </script>
-
         {% endfor %}
       </ul>
     </div>
@@ -294,7 +289,6 @@
           {% include 'partials/_alert2.html' %}
       {% endif %}
     </div>
-
 
     <div class="form_confirmar">
       <button class="button2" id="btn-light" value="download"  type="submit"> Confirma </button>

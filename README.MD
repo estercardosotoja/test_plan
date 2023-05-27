@@ -1,5 +1,5 @@
 # TestPlan
-Uma ferramenta geradora de testes funcionais para API.
+Uma prótotipo de uma ferramenta geradora de testes funcionais para API.
 
 ## Objetivos:
 
@@ -10,6 +10,7 @@ Projeto Tecnologico de conclusão de curso.
 ### Linguagens:
 
 - Python
+- Java Script
 - CSS
 - HTML
 
@@ -35,12 +36,15 @@ Framework que auxilia com o estilo e templates prontos de html e css.
 - sqlparse
 - tzdata
 - Pillow 
-- psycopg2
 - psycopg2-binary
+- psycopg2
 - pytz
 - PyYAML
 - somewhere
-
+- Jinja2
+- MarkupSafe 
+- PyPDF2
+- reportlab
 
 ## Comando para executar:
 - **1** - Criar um ambiente virtual para isolar as importações necessárias:
