@@ -17,7 +17,7 @@
     .h1{
         margin-top: 50px;
         text-align: center;
-        color: #0066CC;
+        color: #86c2ff;
     }
 
     .span{
@@ -29,7 +29,7 @@
         margin-top: 5px;
         margin-bottom: 30px;
     }
-    
+
     .div_paths{
         background-color: rgb(73, 78, 78);
         margin-top: 15px;
@@ -119,7 +119,6 @@
         border-radius: 2em;
     }
 
-
     .btn {
         margin: 0px;
         padding: 6px 12px;
@@ -147,12 +146,13 @@
         background-color: rgb(159, 207, 248); 
         color: #343a40; 
         font-weight: 600;
-        border: 2px solid #008CBA;
+        border: 2px solid rgb(159, 207, 248);
         border-radius: 2em;
       }
       
       .button2:hover, .btn2:focus{
         background-color: #008CBA;
+        border: 2px solid  #008CBA;
         color: white;
       }
 
@@ -160,7 +160,7 @@
         background-color: #0099FF;
         color: #343a40; 
         font-weight: 600;
-        border: 2px solid #008CBA;
+        border: 2px solid #0099FF;
         border-radius: 2em;
     }
     
@@ -218,6 +218,7 @@
                     <button class="button2 util" type="button" onclick="checkAll()">Selecionar Todos</button>
                     <button class="button2 util" type="button" onclick="limpacheckAll()">Limpar Todos</button>
                 </div>
+
                 <!-- Paths -->
                     {% for path, path_object in paths.items %}
                     <div class="div_paths">
@@ -263,7 +264,7 @@
             </div>    
             <br>
             <div>
-                <button  class="button3 observacao" type="submit" value="Gerador!"> Gerar Plano </button>
+                <button  class="button3 observacao" type="submit" value="gerador"> Gerar Plano </button>
             </div>
         </form>
     </div>
