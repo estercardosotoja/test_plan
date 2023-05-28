@@ -34,7 +34,77 @@
         text-align:left; 
         margin-bottom: 10px;
     }
+
+    .btn {
+        margin: 0px;
+        padding: 6px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+    }
+
+    .button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+      }
+      
+    .button2 {
+        background-color: rgb(159, 207, 248); 
+        color: #343a40; 
+        font-weight: 600;
+        border: 2px solid rgb(159, 207, 248);
+        border-radius: 2em;
+      }
+      
+    .button2:hover, .btn2:focus{
+        background-color: #008CBA;
+        border: 2px solid  #008CBA;
+        color: white;
+      }
+
+      .button3{
+        background-color: #0099FF;
+        color: #343a40; 
+        font-weight: 600;
+        border: 2px solid #0099FF;
+        border-radius: 2em;
+    }
+    
+    .button3:hover, .button3:focus{
+        background-color: #0099FF;
+        color: white;
+      }
+
+    .texto-italico {
+        font-style: italic;
+        font-size: small;
+        text-align: left;
+      }
 </style>
+
+<script>
+    function downloadFile() {
+        var fileUrl = document.getElementById('fileUrl').value;
+        if (fileUrl) {
+          var link = document.createElement('a');
+          link.href = fileUrl;
+          link.download = '';
+          link.click();
+        } else {
+          console.log('Please enter a file URL');
+        }
+      }
+</script>
 
 <h1> Manual de Uso </h1>
 <div class="div_paths">
@@ -88,16 +158,16 @@
                 problemas de upload: 
                     <section>
                         <details><summary> Extensão não compativel? </summary>
-                            <p> Verifique a extesão do arquivo que deseja realizar upload. </p>
+                            <p  class="texto-italico" > Verifique a extesão do arquivo que deseja realizar upload. </p>
                         </details>
                         <details><summary> Atenção! Selecione um arquivo para realizar o upload! </summary>
-                            <p> Selecione um arquivo para realizar o upload, provavelmente  não tem nenhum arquivo para realizado o upload.</p>
+                            <p class="texto-italico"> Selecione um arquivo para realizar o upload, provavelmente  não tem nenhum arquivo para realizado o upload.</p>
                         </details>
                         <details><summary> Atenção! Revise o arquivo, sintaxe errada! </summary>
-                            <p> O arquivo selecionado possui algum erro de sintaxe.</p>
+                            <p class="texto-italico"> O arquivo selecionado possui algum erro de sintaxe.</p>
                         </details>
                         <details><summary> Atenção! Selecione um arquivo de especificação conforme a OPEN API para realizar o upload! </summary>
-                            <p> O arquivo selecionado apesar de ser um arquivo de extensão .json ou .yaml não segue o padrão da especificalçao 
+                            <p class="texto-italico"> O arquivo selecionado apesar de ser um arquivo de extensão .json ou .yaml não segue o padrão da especificalçao 
                                 da OPEN API, verifique e tente novamente com arquivo conforme as especificação da Open Api.</p>
                         </details>
                     </section>
@@ -115,7 +185,41 @@
                 - Os schemas dos paths. 
             </p>
         </details>
+        <details>
+            <summary> Como funciona as Métricas? </summary>
+            <p class="description">
+                As métricas são comportas por quatro indicadores:
+                <br/>
+                <p class="texto-italico"> -> <strong>Itens totais:</strong> Este indicador é gerado pela quantidade total de itens que a ferramenta contempla 
+                e extraídos da especificação para realizar a geração de planos. </p>
+
+                <p class="texto-italico"> -> <strong> Itens selecionados:</strong>Este indicador é gerado pela quantidade total de itens que tem alguma validação
+                     compondo o plano de teste.</p>
+
+                <p class="texto-italico">-> <strong> Total de Testes Funcionais</strong> Este indicador é gerado pela quantidade total de validacões selecionadas.</p>
+
+                <p class="texto-italico"> -> <strong> Total de cobertura </strong> Este indicador é gerado com o total de itens que foram extraídos da especificação e a 
+                quantidade de itens que foram selecionados para serem validados. </p>
+            </p>
+        </details>
+
     </section>
+</div>
+
+<div class="div_paths">
+   <h4> Arquivos de Especificaçao</h4>
+
+   Alguns arquivos de especificação que podem ser usados para validar a aplicação:
+   <br/>
+   <br/>
+   <a href="../media/arquivos_exemplos/petshop.json" download>
+    <button class="button2 ">Especificaçao 1</button>
+  </a>
+
+  <a href="../media/arquivos_exemplos/mybank.json" download>
+    <button class="button2 ">Especificaçao 2</button>
+  </a>
+  <br/>
 </div>
 
 {% endblock %}
