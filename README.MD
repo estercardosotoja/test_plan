@@ -55,7 +55,7 @@ Framework que auxilia com o estilo e templates prontos de html e css.
 
 ! Nesta etapa depende de qual o sistema operacional, para Windowns:
 
-    nome_ambiente_virtual\Scripts\activate.bat
+      nome_ambiente_virtual\Scripts\activate.bat
 
 - **3** - Agora, podemos instalar todas as importações necessárias para executar o código:
 
