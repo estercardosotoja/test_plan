@@ -2,12 +2,20 @@
 {% load static %}
 {% block content %}
 <style>
+
+    details {
+        background-color: rgb(44, 47, 47);
+        margin-top: 25px;
+        margin-bottom: 25px;
+        padding: 25px;
+        border-radius: 2em; 
+    }
     .div_paths{
         background-color: rgb(73, 78, 78);
         margin-top: 25px;
         margin-bottom: 25px;
         padding: 25px;
-        border-radius: 2%;
+        border-radius: 2em;
     }
 
     summary{
@@ -24,7 +32,7 @@
     ul  { 
         width:auto; 
         margin:auto; 
-        float:left; 
+        text-align:left; 
         display:block; 
     }
 
@@ -90,6 +98,10 @@
         font-size: small;
         text-align: left;
       }
+
+    a {
+        text-decoration: none;
+    }
 </style>
 
 <script>
@@ -112,8 +124,8 @@
         <details>
             <summary> O que é Test Plan? </summary>
             <p  class="description">
-                O Test Plan e trata-se de um protótipo de ferramenta para geração do Plano de Teste de API,
-                visando auxiliar os profissionais de qualidade na geração de plano de testes de API.  
+                O Test Plan trata-se de um protótipo de ferramenta para geração de Planos de Teste de APIs,
+                visando auxiliar os profissionais de qualidade em sua rotina de trabalho.  
                 O objetivo da ferramenta é auxiliar o usuário a gerar os testes de API seguindo a especificação e diminuir o
                 tempo investido na geração do plano de testes de API.
             </p>
@@ -121,9 +133,9 @@
         <details>
             <summary> Requisitos para utilizar a ferramenta? E o que é arquivo de especificação?</summary>
             <p class="description">
-                Para utlizar a ferramenta é necessário realizar upload de um arquivo de espcificação. Este arquivo também 
-                pode ser conhecido popularmente como Swagguer, mas se trata de um padrão estabelecido pela OpenAPI Specification (OAS) 
-                define uma descrição de interface padrão independente de linguagem de programação para APIs HTTP. 
+                Para utlizar a ferramenta é necessário realizar upload de um arquivo de especificação. Este arquivo também 
+                pode ser conhecido popularmente como Swagger, mas se trata de um padrão estabelecido pela OpenAPI Specification (OAS) que define uma 
+                descrição de interface padrão independente de linguagem de programação para APIs HTTP. 
                 A aplicação é compativel com as extensões .yaml e .json.
             </p>
         </details>
@@ -132,19 +144,19 @@
             <p class="description">
                 Passo a passo para utilizar a ferramenta: 
                 <ul>
-                    <li> 1 - Necessário realizar upload de um arquivo de espcificação. Na Página Inicial teremos o botão 'Iniciar'. Ao clicar 
+                    <li> 1 - Necessário realizar upload de um arquivo de especificação. Na Página Inicial teremos o botão 'Iniciar'. Ao clicar 
                         nele será aberto um pop-up. Para selecionar o arquivo de especificação. Depois de ter escolhido o arquivo se especificação, 
-                        para gerar o plano de teste é só selecionar o button 'Gerar' para ser direcionado para a página de escolher os cenários.  
+                        para gerar o plano de teste é só selecionar o botão 'Gerar' para ser direcionado para a página de escolher os cenários.  
                     </li>
-                    <li> 2 - Na página de escolher os cenários para a geração do plano de testes será listado todos os itens e as validações sugeridas 
+                    <li> 2 - Na página de escolher os cenários para a geração do plano de testes serão listados todos os itens e as validações sugeridas 
                         pelo Test Plan. Também será disponibilizada a opção de adicionar um comentário no plano de teste. Após a escolha de todos os cenários
                         é só clicar em 'Gerar Plano' para ser direcionado para a página de confirmação. 
                     </li>
-                    <li> 3 - Na página de confirmação será listados todos os cenários escolhidos pelo usuário. Desta forma é possivel validar todos os 
-                        componenetes da aplicação que foram selecinados para formar o plano de testes, para continuar é necessário clicar em 'Confirmar'
+                    <li> 3 - Na página de confirmação serão listados todos os cenários escolhidos pelo usuário. Desta forma é possivel validar todos os 
+                        componentes da aplicação que foram selecionados para formar o plano de testes, para continuar é necessário clicar em 'Confirmar'
                         para ser direcionado para a página de Download. 
                     </li>
-                    <li> 4 - Na página de Download é disponibilida a opção de realizar o 'Download PDF', em que realizará o download do arquivo. 
+                    <li> 4 - Na página de Download é disponibilizado uma opção de realizar o 'Download PDF', em que realizará o download do arquivo. 
                     </li>
                 </ul>
             </p>
@@ -153,52 +165,54 @@
         <details>
             <summary> Não consigo realizar o upload do arquivo: </summary>
             <p class="description">
-                É realizado uma algumas validações para que seja só realizado o upload de arquivos que tenham a extensões .yaml e .json e que
-                sejam conforme o padrão estabelecido pela OpenAPI Specification (OAS). Alguns possiveis motivos para estarem ocorrendo estes 
+                É realizado algumas validações para que só seja realizado o upload de arquivos que tenham a extensões .yaml ou .json e que
+                estejam conforme o padrão estabelecido pela OpenAPI Specification (OAS). Alguns possíveis motivos para estarem ocorrendo estes 
                 problemas de upload: 
                     <section>
-                        <details><summary> Extensão não compativel? </summary>
+                        <details><summary> Extensão não compatível? </summary>
                             <p  class="texto-italico" > Verifique a extesão do arquivo que deseja realizar upload. </p>
                         </details>
                         <details><summary> Atenção! Selecione um arquivo para realizar o upload! </summary>
-                            <p class="texto-italico"> Selecione um arquivo para realizar o upload, provavelmente  não tem nenhum arquivo para realizado o upload.</p>
+                            <p class="texto-italico"> Selecione um arquivo para realizar o upload, provavelmente não tem nenhum arquivo selecionado para realizar o upload.</p>
                         </details>
                         <details><summary> Atenção! Revise o arquivo, sintaxe errada! </summary>
                             <p class="texto-italico"> O arquivo selecionado possui algum erro de sintaxe.</p>
                         </details>
                         <details><summary> Atenção! Selecione um arquivo de especificação conforme a OPEN API para realizar o upload! </summary>
-                            <p class="texto-italico"> O arquivo selecionado apesar de ser um arquivo de extensão .json ou .yaml não segue o padrão da especificalçao 
-                                da OPEN API, verifique e tente novamente com arquivo conforme as especificação da Open Api.</p>
-                        </details>
+                            <p class="texto-italico"> O arquivo selecionado apesar de ser um arquivo de extensão .json ou .yaml não segue o padrãode especificação 
+                                da OPEN API, verifique e tente novamente com um arquivo conforme as especificações da OPEN API.</p>
+                            </details>
                     </section>
             </p>
         </details>
         <details>
             <summary> Quais campos são contemplados pela ferramenta atualmente? </summary>
             <p class="description">
-                - Pahts: os endpoints das aplicações.
+                <p class="texto-italico"> <strong> Endpoints (paths): </strong> Uma rota é o “nome” que você usa para acessar os endpoints, usado na URL.</p>
                     </br>
-                - Verbs: Os verbos dos paths.
+                <p class="texto-italico"> <strong> Métodos (verb): </strong> O protocolo HTTP define um conjunto de métodos de requisição responsáveis
+                     por indicar a ação a ser executada para um dado recurso, a forma que realizamos a requisição.</p>
                     </br>  
-                - Campos obrigatórios e opcionais.
+                <p class="texto-italico"> <strong> Campos obrigatórios e opcionais (params and querys): </strong> Os dados utilizados nas requisições,
+                     podendo ser obrigatórios ou opcionais.</p>
                     </br>                  
-                - Os schemas dos paths. 
+                <p class="texto-italico"> <strong> Contrato (schemas): </strong> É o objeto de retorno de uma requisição.</p>
             </p>
         </details>
         <details>
-            <summary> Como funciona as Métricas? </summary>
+            <summary> Como funcionam as Métricas? </summary>
             <p class="description">
                 As métricas são comportas por quatro indicadores:
                 <br/>
                 <p class="texto-italico"> -> <strong>Itens totais:</strong> Este indicador é gerado pela quantidade total de itens que a ferramenta contempla 
                 e extraídos da especificação para realizar a geração de planos. </p>
 
-                <p class="texto-italico"> -> <strong> Itens selecionados:</strong>Este indicador é gerado pela quantidade total de itens que tem alguma validação
+                <p class="texto-italico"> -> <strong> Itens selecionados:</strong> Este indicador é gerado pela quantidade total de itens que tem alguma validação
                      compondo o plano de teste.</p>
 
-                <p class="texto-italico">-> <strong> Total de Testes Funcionais</strong> Este indicador é gerado pela quantidade total de validacões selecionadas.</p>
+                <p class="texto-italico">-> <strong> Total de Testes Funcionais:</strong> Este indicador é gerado pela quantidade total de validações selecionadas.</p>
 
-                <p class="texto-italico"> -> <strong> Total de cobertura </strong> Este indicador é gerado com o total de itens que foram extraídos da especificação e a 
+                <p class="texto-italico"> -> <strong> Total de cobertura:</strong> Este indicador é gerado com o total de itens que foram extraídos da especificação e a 
                 quantidade de itens que foram selecionados para serem validados. </p>
             </p>
         </details>
@@ -207,9 +221,9 @@
 </div>
 
 <div class="div_paths">
-   <h4> Arquivos de Especificaçao</h4>
+   <h4> Arquivos de Especificação</h4>
 
-   Alguns arquivos de especificação que podem ser usados para validar a aplicação:
+   Alguns arquivos de especificações que podem ser usados para validar a aplicação:
    <br/>
    <br/>
    <a href="../media/arquivos_exemplos/petshop.json" download>

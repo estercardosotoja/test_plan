@@ -38,8 +38,9 @@
 </style>
 
 <div>
-  <div> 
-      <h3 class="sub_title">  Esta Pronto! </h3>
+  <div>
+      <img src="{% static '/img/foguete.png' %}">
+      <h3 class="sub_title">  Está Pronto! </h3>
       <p class="lead">Seu Plano de Testes de API está pronto, só realizar o download! </p>
   </div>
   <form method="post" action="{% url 'downloaded' %}" enctype="application/x-www-form-urlencoded">

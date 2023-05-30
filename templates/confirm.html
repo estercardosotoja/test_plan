@@ -194,7 +194,15 @@
         count_status = 0;
         count_schema= 0;
         count_cmp = 0;
-      } 
+      }
+
+      if (elemento0 == 'Requesicao correto'){
+        elemento0 = 'Requesição correta'
+      } else if  (elemento0 == 'Requesicao invalido'){
+        elemento0 = 'Requesição inválida'
+      }else {
+        elemento0 = 'ERROR'
+      }
       
       adiciona_item_conforme_sua_classificacao(elemento0, elemento2, "p_paths")
       count_paths = count_paths + 1;
@@ -209,18 +217,30 @@
         count_cmp = 0;
       }
 
-      adiciona_item_conforme_sua_classificacao(elemento0,elemento2.toUpperCase(), "p_verbs");
+      adiciona_item_conforme_sua_classificacao('Verbo ',elemento2.toUpperCase(), "p_verbs");
       count_verb = count_verb + 1;
       return 
 
     } else if (elemento0.startsWith("Parametro")){
       if (count_cmp < 1){
-        adiciona_titulo("Parameter: ", "descricao_campos");
+        adiciona_titulo("Campo: ", "descricao_campos");
         count_paths = 0;
         count_verb = 0;
         count_status = 0;
         count_schema= 0;
-      } 
+      }
+
+      if (elemento0 == 'Parametro correto'){
+        elemento0 = 'Parâmetro correto'
+      } else if  (elemento0 == 'Parametro vazio'){
+        elemento0 = 'Parâmetro vazio'
+      } else if  (elemento0 == 'Parametro ausente'){
+        elemento0 = 'Parâmetro ausente'
+      } else if  (elemento0 == 'Parametro com tipo diferente'){
+        elemento0 = 'Parâmetro com tipo de dado diferente'
+      }else {
+        elemento0 = elemento0
+      }
 
       adiciona_item_conforme_sua_classificacao(elemento0,elemento2, "p_cmp");
       count_cmp = count_cmp + 1;
@@ -241,7 +261,7 @@
 
     } else if (elemento0.startsWith("Schema")){
       if (count_schema < 1){
-        adiciona_titulo("Schema: ", "descricao_schema");
+        adiciona_titulo("Contrato: ", "descricao_schema");
         count_paths = 0;
         count_verb = 0;
         count_cmp = 0;
@@ -291,7 +311,7 @@
     </div>
 
     <div class="form_confirmar">
-      <button class="button2" id="btn-light" value="download"  type="submit"> Confirma </button>
+      <button class="button2" id="btn-light" value="download"  type="submit"> Confirmar </button>
     </div>
 
   </form>
