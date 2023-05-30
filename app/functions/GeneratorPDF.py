@@ -59,7 +59,7 @@ class GeneratorPDF:
         # Montando os Testes
         quantidade_testes = montando_testes(pdf, context, spec)
 
-        #Title Resumo
+        # Title Resumo
         title_Resumo(pdf)
 
         # Dados
@@ -158,8 +158,7 @@ def description_header(pdf, spec):
             pdf.setFont("Helvetica-Oblique", 10)
             pdf.drawString(30, 720, f'Description: {description}')
         else:
-            pdf.setFont("Helvetica-Oblique", 10)
-            pdf.drawString(30, 720, 'Description: Não informado')
+            return
     except TypeError:
         print("Log: Erro na função 'description_header' no GeneratorPDF")
 
@@ -176,8 +175,7 @@ def version_header(pdf, spec):
             pdf.setFont("Helvetica-Oblique", 10)
             pdf.drawString(30, 700, f' Version: {version}')
         else:
-            pdf.setFont("Helvetica-Bold", 10)
-            pdf.drawString(30, 700, "Version: Não informado")
+            return
     except KeyError:
         print("Log: Erro na função 'host_header' no GeneratorPDF")
 
@@ -194,8 +192,7 @@ def host_header(pdf, spec):
             pdf.setFont("Helvetica-Oblique", 10)
             pdf.drawString(200, 700, f'Host: {host}')
         else:
-            pdf.setFont("Helvetica-Bold", 10)
-            pdf.drawString(200, 700,  "Host: Não informado")
+            return
     except KeyError:
         print("Log: Erro na função 'host_header' no GeneratorPDF")
 
@@ -212,8 +209,7 @@ def base_header(pdf, spec):
             pdf.setFont("Helvetica-Oblique", 10)
             pdf.drawString(450, 700, f'basePath: {base}')
         else:
-            pdf.setFont("Helvetica-Bold", 10)
-            pdf.drawString(450, 700, f'basePath: Não informado')
+            return
     except KeyError:
         print("Log: Erro na função 'host_header' no GeneratorPDF")
 
@@ -225,7 +221,7 @@ def base_header(pdf, spec):
 
 def title_items(pdf):
     pdf.setFont("Helvetica-Bold", 16)
-    pdf.drawString(30, 670, "Elementos da especificicação")
+    pdf.drawString(30, 670, "Elementos que contém na especificação")
     pdf.setLineWidth(1)
     pdf.line(30, 650, 550, 650)
 
@@ -315,31 +311,32 @@ def valida_inicio_string(texto, prefixo):
 
 def subtitle_path(pdf, string):
     try:
-        pdf.setFont("Helvetica-Oblique", 16)
-        pdf.drawString(30, get_altura(), f' {string}')
+        set_altura(get_altura() - 10)
+        pdf.setFont("Helvetica-Bold", 14)
+        pdf.drawString(30, get_altura(), f' Endpoint: {string}')
     except TypeError:
         print("Log: Erro na função 'subtitle_path' no GeneratorPDF")
 
 
 def subtitle_verb(pdf, string):
     try:
-        pdf.setFont("Helvetica-Oblique", 10)
-        pdf.drawString(35, get_altura(), f'Metódos: {string.upper()}')
+        pdf.setFont("Helvetica-Oblique", 14)
+        pdf.drawString(40, get_altura(), f' Metódos: {string.upper()}')
     except TypeError:
         print("Log: Erro na função 'subtitle_verb' no GeneratorPDF")
 
 
 def subtitle_cmp(pdf, string):
     try:
-        pdf.setFont("Helvetica-Oblique", 11)
-        pdf.drawString(40, get_altura(), f'Parametros: {string}')
+        pdf.setFont("Helvetica-Oblique", 13)
+        pdf.drawString(50, get_altura(), f' Campos: {string}')
     except TypeError:
         print("Log: Erro na função 'subtitle_cmp' no GeneratorPDF")
 
 
 def subtitle_status(pdf, string):
     try:
-        pdf.setFont("Helvetica-Oblique", 10)
+        pdf.setFont("Helvetica-Oblique", 12)
         pdf.drawString(60, get_altura(), f'Status Code: {string}')
     except TypeError:
         print("Log: Erro na função 'subtitle_status' no GeneratorPDF")
@@ -348,7 +345,7 @@ def subtitle_status(pdf, string):
 def subtitle_schema(pdf, string):
     try:
         palavra = string
-        pdf.setFont("Helvetica-Oblique", 9)
+        pdf.setFont("Helvetica-Oblique", 11)
         pdf.drawString(70, get_altura(), f'Schemas: {palavra}')
     except TypeError:
         print("Log: Erro na função 'subtitle_schema' no GeneratorPDF")
@@ -356,8 +353,8 @@ def subtitle_schema(pdf, string):
 
 def subtitle(pdf, string):
     try:
-        pdf.setFont("Helvetica-Oblique", 8)
-        pdf.drawString(100, get_altura(), f'Outros: {string}')
+        pdf.setFont("Helvetica-Oblique", 10)
+        pdf.drawString(70, get_altura(), f'Outros: {string}')
     except TypeError:
         print("Log: Erro na função 'subtitle' no GeneratorPDF")
 
@@ -418,7 +415,7 @@ def new_page(pdf, num, spec):
 def title_Testes(pdf):
     set_altura(get_altura() - 50)
     pdf.setFont("Helvetica-Bold", 16)
-    pdf.drawString(30, get_altura(), "Testes")
+    pdf.drawString(30, get_altura(), "Validações")
     pdf.setLineWidth(1)
     pdf.line(30, get_altura() - 30, 550, get_altura() - 30)
     set_altura(get_altura() + 30)
@@ -429,16 +426,48 @@ def title_Testes(pdf):
 """
 
 
-def subtitle_path(pdf, string):
+def subtitle_elementos(pdf, string):
     pdf.setFont("Helvetica-Oblique", 12)
     pdf.drawString(30, get_altura(), string)
 
 
+def acentua_validacao_path(descricao):
+    if valida_inicio_string(descricao, 'Requesicao correto'):
+        descricao = 'Requesição correta'
+    elif valida_inicio_string(descricao, 'Requesicao invalido'):
+        descricao = 'Requesição inválida'
+    else:
+        descricao = 'ERROR'
+    return descricao
+
+
+def acentua_validacao_verb(descricao):
+    if valida_inicio_string(descricao, 'Metodo'):
+        descricao = 'Método'
+    else:
+        descricao = 'ERROR'
+    return descricao
+
+
+def acentua_validacao_parameter(descricao):
+    if valida_inicio_string(descricao, 'Parametro correto'):
+        descricao = 'Campo correto'
+    elif valida_inicio_string(descricao, 'Parametro vazio'):
+        descricao = 'Campo vazio'
+    elif valida_inicio_string(descricao, 'Parametro ausente'):
+        descricao = 'Campo ausente'
+    elif valida_inicio_string(descricao, 'Parametro com tipo diferente'):
+        descricao = 'Campo com tipo de dado diferente'
+    else:
+        descricao = 'ERROR'
+    return descricao
+
+
 def imprime_item(pdf, id, descricao, item):
     set_altura(get_altura() - 15)
-    subtitle_path(pdf, f'Caso de Testes {id}')
+    subtitle_elementos(pdf, f'Caso de Testes {id}')
     set_altura(get_altura() - 15)
-    subtitle_path(pdf, f'{separa_string_poste(descricao)} : {item}')
+    subtitle_elementos(pdf, f'{separa_string_poste(descricao)} : {item}')
     set_altura(get_altura() - 10)
 
 
@@ -456,10 +485,13 @@ def montando_testes(pdf, ordem, spec):
         ident = ident + 1
         new_page(pdf, 15, spec)
         if valida_inicio_string(separa_string_poste(descricao), "Requesicao"):
+            descricao = acentua_validacao_path(descricao)
             imprime_item(pdf, ident, descricao, path)
         elif valida_inicio_string(separa_string_poste(descricao), "Metodo"):
+            descricao = acentua_validacao_verb(descricao)
             imprime_item(pdf, ident, descricao, path.upper())
         elif valida_inicio_string(separa_string_poste(descricao), "Parametro"):
+            descricao = acentua_validacao_parameter(descricao)
             imprime_item(pdf, ident, descricao, path)
         elif valida_inicio_string(separa_string_poste(descricao), "Status"):
             imprime_item(pdf, ident, descricao, path)
@@ -491,14 +523,14 @@ def title_Resumo(pdf):
 
 # Dados
 def resumo(pdf, quantidade_itens_selecionados, quantidade_testes):
-    set_altura(get_altura()-100)
+    set_altura(get_altura() - 100)
     porc_cobertura = porcentagem_cobertura(get_quant_itens_spec(), quantidade_itens_selecionados)
     text_porc_cobertura = f'{porc_cobertura}%'
-    subtitle_quantidade_itens(pdf, 70, f'Itens Totais',  get_quant_itens_spec())
+    subtitle_quantidade_itens(pdf, 70, f'Itens Totais', get_quant_itens_spec())
     subtitle_quantidade_itens(pdf, 165, f'Itens selecionados', quantidade_itens_selecionados)
     subtitle_quantidade_itens(pdf, 280, f'Total de Testes Funcionais', quantidade_testes)
     subtitle_quantidade_itens(pdf, 420, 'Cobertura de Testes', text_porc_cobertura)
-    set_altura(get_altura()-20)
+    set_altura(get_altura() - 20)
 
 
 def porcentagem_cobertura(total, selecionados):
@@ -510,8 +542,8 @@ def porcentagem_cobertura(total, selecionados):
 def subtitle_quantidade_itens(pdf, x, string, num):
     try:
         pdf.setFont("Helvetica-Oblique", 35)
-        pdf.drawString(x, get_altura(), f'{ num }')
+        pdf.drawString(x, get_altura(), f'{num}')
         pdf.setFont("Helvetica-Oblique", 10)
-        pdf.drawString(x, get_altura()-15, f'{string}')
+        pdf.drawString(x, get_altura() - 15, f'{string}')
     except TypeError:
         print("Log: Erro na função 'subtitle_path' no GeneratorPDF")
