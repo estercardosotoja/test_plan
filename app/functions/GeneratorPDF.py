@@ -5,8 +5,6 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import inch
 from reportlab.platypus import Paragraph
 
-quant_itens_spec = 0
-
 
 class GeneratorPDF:
     altura = None
@@ -60,35 +58,15 @@ class GeneratorPDF:
         quantidade_testes = montando_testes(pdf, context, spec)
 
         # Title Resumo
-        title_Resumo(pdf)
+        title_Resumo(pdf, spec)
 
         # Dados
-        resumo(pdf, quant_itens_selecionados, quantidade_testes)
+        resumo(pdf, quant_itens_selecionados, quantidade_testes, spec)
 
         # Titulo/Nome do serviço
         pdf.save()
         print('Log: {}.pdf criado com sucesso!'.format(name_pdf))
-        set_quant_itens_spec(0)
         return 1
-
-
-"""
-    Para retornar a quantidade de itens que tem na especificação
-"""
-
-
-def get_quant_itens_spec():
-    return quant_itens_spec
-
-
-"""
-    Para adicionar ou alterar a quantidade de itens que tem na especificação
-"""
-
-
-def set_quant_itens_spec(value):
-    global quant_itens_spec
-    quant_itens_spec = value
 
 
 """
@@ -245,7 +223,6 @@ def todos_os_items(pdf, spec):
     set_altura(650)
     testes = {}
     id = 0
-    quant = 0
     for path, path_object in spec['spec']['paths'].items():
         id = id + 1
         testes.update({f'path{id}': path})
@@ -256,6 +233,7 @@ def todos_os_items(pdf, spec):
             items_text(pdf, spec, f'verb{id}', verb)
             if 'parameters' in verb_object:
                 for parameter in verb_object['parameters']:
+                    id = id + 1
                     if parameter.get("type") is not None and parameter.get('required') is not None:
                         if not parameter.get('required'):
                             tipo_campo = "Opcional"
@@ -285,13 +263,12 @@ def todos_os_items(pdf, spec):
                         count = 0
                         for schema, schema_objets in status_object.items():
                             if count == 0:
-                                count = count + 1
                                 id = id + 1
+                                count = count + 1
                                 testes.update({f'schema{id}': schema})
                                 items_text(pdf, spec, f'schema{id}', schema)
                             else:
                                 continue
-    set_quant_itens_spec(id)
     return testes
 
 
@@ -433,9 +410,9 @@ def subtitle_elementos(pdf, string):
 
 def acentua_validacao_path(descricao):
     if valida_inicio_string(descricao, 'Requesicao correto'):
-        descricao = 'Requesição correta'
+        descricao = 'Requisição correta'
     elif valida_inicio_string(descricao, 'Requesicao invalido'):
-        descricao = 'Requesição inválida'
+        descricao = 'Requisição inválida'
     else:
         descricao = 'ERROR'
     return descricao
@@ -512,8 +489,9 @@ def separa_string_poste(string):
 
 
 # Title Resumo
-def title_Resumo(pdf):
+def title_Resumo(pdf, spec):
     set_altura(get_altura() - 50)
+    new_page(pdf, 10, spec)
     pdf.setFont("Helvetica-Bold", 16)
     pdf.drawString(30, get_altura(), "Métricas")
     pdf.setLineWidth(1)
@@ -522,11 +500,13 @@ def title_Resumo(pdf):
 
 
 # Dados
-def resumo(pdf, quantidade_itens_selecionados, quantidade_testes):
+def resumo(pdf, quantidade_itens_selecionados, quantidade_testes, spec):
     set_altura(get_altura() - 100)
-    porc_cobertura = porcentagem_cobertura(get_quant_itens_spec(), quantidade_itens_selecionados)
+    new_page(pdf, 10, spec)
+    quant_total_itens_specificacao = quantidade_itens_total_specficacao(spec)
+    porc_cobertura = porcentagem_cobertura(quant_total_itens_specificacao, quantidade_itens_selecionados)
     text_porc_cobertura = f'{porc_cobertura}%'
-    subtitle_quantidade_itens(pdf, 70, f'Itens Totais', get_quant_itens_spec())
+    subtitle_quantidade_itens(pdf, 70, f'Itens Totais', quant_total_itens_specificacao)
     subtitle_quantidade_itens(pdf, 165, f'Itens selecionados', quantidade_itens_selecionados)
     subtitle_quantidade_itens(pdf, 280, f'Total de Testes Funcionais', quantidade_testes)
     subtitle_quantidade_itens(pdf, 420, 'Cobertura de Testes', text_porc_cobertura)
@@ -547,3 +527,25 @@ def subtitle_quantidade_itens(pdf, x, string, num):
         pdf.drawString(x, get_altura() - 15, f'{string}')
     except TypeError:
         print("Log: Erro na função 'subtitle_path' no GeneratorPDF")
+
+
+def quantidade_itens_total_specficacao(spec):
+    paths = spec["spec"]["paths"]
+    count = 0
+    for path, objetc_verb in paths.items():
+        count = count + 1
+        print(f'{count}: {path}')
+        for verb, objetc_parameters in objetc_verb.items():
+            count = count + 1
+            print(f'{count}: {verb}')
+            for parameter in objetc_parameters['parameters']:
+                count = count + 1
+                print(f' Parameter: {count}: {parameter.values()}')
+            for status, status_object in objetc_parameters['responses'].items():
+                count = count + 1
+                print(f'{count}: {status}')
+                for schema, schema_objets in status_object.items():
+                    if schema == "schema":
+                        count = count + 1
+                        print(f'{count}: {schema}')
+    return count
