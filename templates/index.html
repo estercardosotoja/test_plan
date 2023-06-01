@@ -25,6 +25,19 @@
     text-decoration: none;
   }
 
+  .info{
+     font-size: 14px;
+     background-color: #5f7182;
+     padding: 0.5em 2em;
+     border-radius: 2em;
+     margin-top: 5em;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+   }
 </style>
 
   <main class="px-3">
@@ -40,5 +53,9 @@
         {% include 'partials/_alert2.html' %}
       {% endif %}
     </body>
+<div class="info" >
+    Primeira vez na ferramenta? Acesse o <a href="{% url 'manual' %}"> Manual de Uso </a> em que possui arquivos de especificação de exemplo para testar
+    a ferramenta.
+</div>
 {% endblock %}
 
