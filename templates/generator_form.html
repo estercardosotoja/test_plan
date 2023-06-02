@@ -14,6 +14,15 @@
         margin-top: 15px;
     }
 
+    .info{
+        font-size: 14px;
+        background-color: rgb(7, 116, 200);
+        padding: 0.5em 2em;
+        border-radius: 1em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+     }
+
     .h1{
         margin-top: 50px;
         text-align: center;
@@ -209,6 +218,7 @@
             <h6 class="infos"> Base URL: {{ host_base_path }}</h6>
         </div>
 
+
         <form method="post" action="{% url 'confirm' %}"  enctype="application/x-www-form-urlencoded">
             {% csrf_token %}
 
@@ -218,6 +228,12 @@
                     <button class="button2 util" type="button" onclick="checkAll()">Selecionar Todos</button>
                     <button class="button2 util" type="button" onclick="limpacheckAll()">Limpar Todos</button>
                 </div>
+
+                
+        <div class="info">
+            <strong> Informação! </strong> A seguir, estão as validações sugeridas pelo TestPlan para formar o plano de testes. Por favor,
+             selecione pelo menos uma das opções de validação abaixo.
+        </div>
 
                 <!-- Paths -->
                     {% for path, path_object in paths.items %}

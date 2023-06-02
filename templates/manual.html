@@ -124,19 +124,27 @@
         <details>
             <summary> O que é Test Plan? </summary>
             <p  class="description">
-                O Test Plan trata-se de um protótipo de ferramenta para geração de Planos de Teste de APIs,
-                visando auxiliar os profissionais de qualidade em sua rotina de trabalho.  
-                O objetivo da ferramenta é auxiliar o usuário a gerar os testes de API seguindo a especificação e diminuir o
-                tempo investido na geração do plano de testes de API.
+                O Test Plan é um protótipo de uma ferramenta destinada à geração de Planos de Teste de APIs. Seu propósito é auxiliar profissionais de qualidade em 
+                suas atividades diárias. O objetivo principal dessa ferramenta é ajudar o usuário a criar testes de API de acordo com as especificações, reduzindo o 
+                tempo necessário para elaborar o plano de testes de API.
             </p>
         </details>
         <details>
             <summary> Requisitos para utilizar a ferramenta? E o que é arquivo de especificação?</summary>
             <p class="description">
-                Para utlizar a ferramenta é necessário realizar upload de um arquivo de especificação. Este arquivo também 
-                pode ser conhecido popularmente como Swagger, mas se trata de um padrão estabelecido pela OpenAPI Specification (OAS) que define uma 
-                descrição de interface padrão independente de linguagem de programação para APIs HTTP. 
-                A aplicação é compativel com as extensões .yaml e .json.
+                A fim de utilizar a ferramenta, alguns requisitos são necessários. Primeiramente, é preciso ter um arquivo de especificação.
+                Esse arquivo descreve detalhadamente a interface de uma API, incluindo os endpoints, parâmetros, métodos e outras informações relevantes. 
+                O formato mais comum para esse arquivo é o Swagger, que segue o padrão estabelecido pela OpenAPI Specification (OAS). 
+                Essa especificação define uma linguagem de descrição de API independente de linguagem de programação.
+                <br/>
+                Além do arquivo de especificação, é importante ter conhecimento sobre a estrutura da API que está sendo testada. 
+                Isso inclui entender os diferentes endpoints, os dados esperados em cada requisição, os parâmetros de autenticação, entre outros detalhes específicos da API em questão.
+                <br/>
+                Portanto, os requisitos para utilizar a ferramenta são:
+                <br/>
+                1 - Um arquivo de especificação, preferencialmente no formato Swagger (.yaml ou .json);
+                <br/>
+                2 - Conhecimento sobre a estrutura da API a ser testada.
             </p>
         </details>
         <details>
@@ -144,19 +152,25 @@
             <p class="description">
                 Passo a passo para utilizar a ferramenta: 
                 <ul>
-                    <li> 1 - Necessário realizar upload de um arquivo de especificação. Na Página Inicial teremos o botão 'Iniciar'. Ao clicar 
-                        nele será aberto um pop-up. Para selecionar o arquivo de especificação. Depois de ter escolhido o arquivo de especificação, 
-                        para gerar o plano de teste é só selecionar o botão 'Gerar' para ser direcionado para a página de escolher os cenários.  
+                    <li> 
+                        1 - Faça o upload de um arquivo de especificação: Na página inicial, clique no botão "Iniciar" para abrir um pop-up onde você poderá selecionar 
+                        o arquivo de especificação. Após escolher o arquivo, clique em "Gerar" para ser direcionado à página de seleção de cenários.
                     </li>
-                    <li> 2 - Na página de escolher os cenários para a geração do plano de testes serão listados todos os itens e as validações sugeridas 
-                        pelo Test Plan. Também será disponibilizada a opção de adicionar um comentário no plano de teste. Após a escolha de todos os cenários
-                        é só clicar em 'Gerar Plano' para ser direcionado para a página de confirmação. 
+
+                    <li>
+                        2 - Escolha os cenários para geração do plano de testes: Na página de seleção de cenários, serão listados todos os itens e as validações sugeridas
+                         pelo Test Plan. Você também terá a opção de adicionar comentários ao plano de teste. Após escolher todos os cenários desejados, clique em 
+                         "Gerar Plano" para ser direcionado à página de confirmação.
                     </li>
-                    <li> 3 - Na página de confirmação serão listados todos os cenários escolhidos pelo usuário. Desta forma é possivel validar todos os 
-                        componentes da aplicação que foram selecionados para formar o plano de testes, para continuar é necessário clicar em 'Confirmar'
-                        para ser direcionado para a página de Download. 
+
+                    <li>
+                        3 - Confirme os cenários escolhidos: Na página de confirmação, serão listados todos os cenários selecionados por você. Verifique se todos os componentes
+                         da aplicação estão corretos no plano de testes. Para prosseguir, clique em "Confirmar" para ser direcionado à página de download.
                     </li>
-                    <li> 4 - Na página de Download é disponibilizado uma opção de realizar o 'Download PDF', em que realizará o download do arquivo. 
+
+                    <li>
+                        4- Faça o download do plano de testes: Na página de download, você encontrará a opção de "Download PDF" para baixar o arquivo contendo o plano de 
+                        testes.
                     </li>
                 </ul>
             </p>
@@ -188,15 +202,15 @@
         <details>
             <summary> Quais campos são contemplados pela ferramenta atualmente? </summary>
             <p class="description">
-                <p class="texto-italico"> <strong> Endpoints (paths): </strong> Uma rota é o “nome” que você usa para acessar os endpoints, usado na URL.</p>
+                <p class="texto-italico"> <strong> Endpoints (paths): </strong> Representam as rotas ou "nomes" utilizados para acessar os endpoints na URL..</p>
                     </br>
-                <p class="texto-italico"> <strong> Métodos (verb): </strong> O protocolo HTTP define um conjunto de métodos de requisição responsáveis
-                     por indicar a ação a ser executada para um dado recurso, a forma que realizamos a requisição.</p>
+                <p class="texto-italico"> <strong> Métodos (verb): </strong> Seguem o protocolo HTTP e indicam a ação a ser executada para um determinado recurso, definindo a forma
+                     como a requisição é realizada..</p>
                     </br>  
-                <p class="texto-italico"> <strong> Campos obrigatórios e opcionais (params and querys): </strong> Os dados utilizados nas requisições,
-                     podendo ser obrigatórios ou opcionais.</p>
+                <p class="texto-italico"> <strong> Campos obrigatórios e opcionais (params and querys): </strong> Referem-se aos dados utilizados nas requisições, podendo ser obrigatórios
+                     ou opcionais, dependendo dos parâmetros e das consultas especificados..</p>
                     </br>                  
-                <p class="texto-italico"> <strong> Contrato (schemas): </strong> É o objeto de retorno de uma requisição.</p>
+                <p class="texto-italico"> <strong> Contrato (schemas): </strong> Representa o objeto de retorno de uma requisição, ou seja, a estrutura e os campos esperados na resposta.</p>
             </p>
         </details>
         <details>
@@ -204,16 +218,17 @@
             <p class="description">
                 As métricas são compostas por quatro indicadores:
                 <br/>
-                <p class="texto-italico"> -> <strong>Itens totais:</strong> Este indicador é gerado pela quantidade total de itens que a ferramenta contempla 
-                e extraídos da especificação para realizar a geração de planos. </p>
+                <p class="texto-italico"> -> <strong>Itens totais:</strong> Este indicador é gerado pela quantidade total de itens presentes na especificação, 
+                    que são extraídos para a geração de planos de teste. </p>
 
-                <p class="texto-italico"> -> <strong> Itens selecionados:</strong> Este indicador é gerado pela quantidade total de itens que tem alguma validação
-                     compondo o plano de teste.</p>
+                <p class="texto-italico"> -> <strong> Itens selecionados:</strong> Este indicador é gerado pela quantidade total de itens que foram selecionados para compor a geração 
+                    de planos de teste.</p>
 
-                <p class="texto-italico">-> <strong> Total de Testes Funcionais:</strong> Este indicador é gerado pela quantidade total de validações selecionadas.</p>
+                <p class="texto-italico">-> <strong> Total de Testes Funcionais:</strong> Esse indicador é obtido a partir da contagem total de validações selecionadas, que representam os
+                     testes funcionais a serem executados. </p>
 
-                <p class="texto-italico"> -> <strong> Total de cobertura:</strong> Este indicador é gerado com o total de itens que foram extraídos da especificação e a 
-                quantidade de itens que foram selecionados para serem validados. </p>
+                <p class="texto-italico"> -> <strong> Total de cobertura:</strong> Esse indicador é calculado considerando o número total de itens extraídos da especificação e a quantidade de itens
+                     selecionados para serem validados. Ele representa a cobertura do plano de teste em relação à especificação. </p>
             </p>
         </details>
 

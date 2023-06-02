@@ -7,6 +7,7 @@ from reportlab.platypus import Paragraph
 
 
 class GeneratorPDF:
+    
     altura = None
 
     """
