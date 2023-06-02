@@ -3,6 +3,7 @@
 
 ### aws ###
 /extras/projeto_tecnologico.pem
+/extra/projeto_tecnologico.pem
 
 ### Django ###
 *.log

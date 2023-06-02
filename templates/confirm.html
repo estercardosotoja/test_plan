@@ -131,8 +131,16 @@
     background-color: #008CBA;
     color: white;
     padding: 6px 12px; 
-
   }
+
+  .info{
+    font-size: 14px;
+    background-color: rgb(7, 116, 200);
+    padding: 0.5em 2em;
+    border-radius: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+ }
 </style>
 
 <script> 
@@ -196,7 +204,7 @@
         count_cmp = 0;
       }
 
-      if (elemento0 == 'Requisicao correto'){
+      if (elemento0 == 'Requesicao correto'){
         elemento0 = 'Requisição correta'
       } else if  (elemento0 == 'Requesicao invalido'){
         elemento0 = 'Requisição inválida'
@@ -288,6 +296,10 @@
 
   <h1 class="h1"> Resumo </h1>
 
+  <div class="info">
+    <strong> Informação! </strong> Abaixo estão todas as opções de validação selecionadas pelo usuário. Por favor, clique em "Confirmar" para prosseguir.
+  </div>
+
   <form method="post" action="{% url 'download' %}"  enctype="application/x-www-form-urlencoded">
     {% csrf_token %}
      
@@ -299,6 +311,8 @@
             elemento2 = "{{ elemento.1 }}";
             elemento0 = retira_numero(elemento1)
             adicionarItemLista(elemento2, elemento0);
+            console.log(elemento0)
+            console.log(elemento2)
           </script>
         {% endfor %}
       </ul>
