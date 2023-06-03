@@ -235,8 +235,10 @@ def todos_os_items(pdf, spec):
             if 'parameters' in verb_object:
                 for parameter in verb_object['parameters']:
                     id = id + 1
-                    if parameter.get("name") is not None:
-                        print('Tem alguma coisa em name', parameter)
+                    if parameter is None:
+                        print(f"testes vszio: {parameter}")
+                    elif parameter.get("name") is None:
+                        print(f"testes vazio: {parameter}")
                     elif parameter.get("type") is not None and parameter.get('required') is not None:
                         if not parameter.get('required'):
                             tipo_campo = "Opcional"
