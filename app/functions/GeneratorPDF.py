@@ -236,8 +236,10 @@ def todos_os_items(pdf, spec):
                 for parameter in verb_object['parameters']:
                     id = id + 1
                     if parameter is None:
+                        id = id - 1
                         print(f"testes vszio: {parameter}")
                     elif parameter.get("name") is None:
+                        id = id - 1
                         print(f"testes vazio: {parameter}")
                     elif parameter.get("type") is not None and parameter.get('required') is not None:
                         if not parameter.get('required'):
