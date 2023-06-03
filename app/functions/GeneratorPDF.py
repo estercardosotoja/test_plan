@@ -254,6 +254,8 @@ def todos_os_items(pdf, spec):
                     elif parameter.get("required") is not None:
                         testes.update({f'parameter{id}': f"{parameter['name']} - Campo {parameter['required']}"})
                         items_text(pdf, spec, f'parameter{id}', f"{parameter['name']} - Campo {parameter['required']}")
+                    elif parameter.get("name") is not None:
+                        continue
                     else:
                         testes.update({f'parameter{id}': f"{parameter['name']}"})
                         items_text(pdf, spec, f'parameter{id}', f"{parameter['name']}")
