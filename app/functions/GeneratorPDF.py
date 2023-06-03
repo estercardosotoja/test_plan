@@ -549,6 +549,12 @@ def quantidade_itens_total_specficacao(spec):
             for parameter in objetc_parameters['parameters']:
                 count = count + 1
                 print(f' Parameter: {count}: {parameter.values()}')
+                if parameter is None:
+                    count = count - 1
+                elif parameter.get("name") is None:
+                    count = count - 1
+                else:
+                    continue
             for status, status_object in objetc_parameters['responses'].items():
                 count = count + 1
                 print(f'{count}: {status}')
