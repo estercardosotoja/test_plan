@@ -235,7 +235,9 @@ def todos_os_items(pdf, spec):
             if 'parameters' in verb_object:
                 for parameter in verb_object['parameters']:
                     id = id + 1
-                    if parameter.get("type") is not None and parameter.get('required') is not None:
+                    if parameter.get("name") is not None:
+                        print('Tem alguma coisa em name', parameter)
+                    elif parameter.get("type") is not None and parameter.get('required') is not None:
                         if not parameter.get('required'):
                             tipo_campo = "Opcional"
                             testes.update(
@@ -254,11 +256,10 @@ def todos_os_items(pdf, spec):
                     elif parameter.get("required") is not None:
                         testes.update({f'parameter{id}': f"{parameter['name']} - Campo {parameter['required']}"})
                         items_text(pdf, spec, f'parameter{id}', f"{parameter['name']} - Campo {parameter['required']}")
-                    elif parameter.get("name") is not None:
-                        continue
                     else:
                         testes.update({f'parameter{id}': f"{parameter['name']}"})
                         items_text(pdf, spec, f'parameter{id}', f"{parameter['name']}")
+
                     for status, status_object in verb_object['responses'].items():
                         id = id + 1
                         testes.update({f'status{id}': status})
